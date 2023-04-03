@@ -19,7 +19,7 @@ public partial class Player : CharacterBody2D
 
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
-
+    #region State Implementations
 	//TODO: move into a its own class
 	private void MoveState(double delta)
 	{
@@ -64,6 +64,7 @@ public partial class Player : CharacterBody2D
 	{
 		throw new NotImplementedException();
 	}
+    #endregion
 	#endregion
 
 	#region Properties
@@ -83,7 +84,7 @@ public partial class Player : CharacterBody2D
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	// public float Gravity => ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
-	public override void _PhysicsProcess(double delta)
+	public override void _Process(double delta)
 	{
 		switch (_currentState)
 		{

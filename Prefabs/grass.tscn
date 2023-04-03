@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://chyd6lwn4m60s"]
+
+[ext_resource type="Texture2D" uid="uid://xa1vndbvkknn" path="res://World/Grass.png" id="1_drkhb"]
+[ext_resource type="Script" path="res://Scripts/Grass.cs" id="1_w0n0h"]
+
+[node name="Grass" type="Node2D"]
+script = ExtResource("1_w0n0h")
+_destroyEffectTemplatePath = "res://Prefabs/grass_effect.tscn"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_drkhb")
+centered = false
+offset = Vector2(-8, -8)

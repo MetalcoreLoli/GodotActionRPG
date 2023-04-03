@@ -1,8 +1,9 @@
-[gd_scene load_steps=53 format=3 uid="uid://dpd5s6suy2lbo"]
+[gd_scene load_steps=54 format=3 uid="uid://cl5s53i37ck4i"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_fhnjt"]
 [ext_resource type="Texture2D" uid="uid://c1jwr1scderkh" path="res://Player/Player.png" id="2_si0gq"]
 [ext_resource type="PackedScene" uid="uid://cjq7wvgvb1ogh" path="res://Prefabs/hitbox.tscn" id="3_48l26"]
+[ext_resource type="Script" path="res://Scripts/WeaponHitbox.cs" id="4_1hpqv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b35ho"]
 radius = 4.0
@@ -672,9 +673,10 @@ graph_offset = Vector2(-323, -95)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fylyf"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_animationTree", "_animationPlayer")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weaponHitbox", "_animationTree", "_animationPlayer")]
 collision_layer = 2
 script = ExtResource("1_fhnjt")
+_weaponHitbox = NodePath("HitBoxPivot/SwordHitBox")
 _animationTree = NodePath("AnimationTree")
 _animationPlayer = NodePath("AnimationPlayer")
 
@@ -711,6 +713,7 @@ position = Vector2(0, -4)
 position = Vector2(14, 0)
 collision_layer = 16
 collision_mask = 8
+script = ExtResource("4_1hpqv")
 
 [node name="CollisionShape2D" parent="HitBoxPivot/SwordHitBox" index="0"]
 shape = SubResource("CapsuleShape2D_fylyf")

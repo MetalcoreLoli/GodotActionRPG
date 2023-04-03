@@ -15,6 +15,9 @@ public partial class Player : CharacterBody2D
 	[Export(PropertyHint.Flags, "Idle,Attack,Move,Roll")]
 	private State _currentState = State.Idle;
 
+    //TODO: create weaponhitbox class 
+    [Export] private WeaponHitbox _weaponHitbox = null!;
+
 	[Export] private AnimationTree _animationTree = null!;
 	[Export] private AnimationPlayer _animationPlayer = null!;
 
@@ -36,10 +39,14 @@ public partial class Player : CharacterBody2D
 		if (direction != Vector2.Zero)
 		{
             _currentDirection = direction;
+            if (_weaponHitbox is not null)
+                _weaponHitbox.KnockbackVector = _currentDirection;
+
 			_animationTree?.Set("parameters/Idle/blend_position", direction);
 			_animationTree?.Set("parameters/Attack/blend_position", direction);
 			_animationTree?.Set("parameters/Run/blend_position", direction);
 			_animationTree?.Set("parameters/Roll/blend_position", direction);
+
 			_currentAnimationState?.Travel("Run");
 			velocity = velocity.MoveToward(direction * Speed, Acceleration * (float)delta);
 		}
@@ -67,6 +74,7 @@ public partial class Player : CharacterBody2D
 
 	private void AttackState(double delta)
 	{
+
 		Velocity = Vector2.Zero;
 		_currentAnimationState?.Travel("Attack");
 	}

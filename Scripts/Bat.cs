@@ -9,7 +9,12 @@ public partial class Bat : CharacterBody2D
     [Export] private Area2D _hurtbox = null!;
     [Export] private float _friction = 200;
     [Export] private float _knockbackConst = 135;
-    [Export] private EffectSpawner _deathEffectSpawner = null!;
+
+    [Export, ExportGroup("Effects")]
+    private EffectSpawner _hitEffectSpawner = null!;
+
+    [Export, ExportGroup("Effects")]
+    private EffectSpawner _deathEffectSpawner = null!;
 
     private Vector2 _knockback = Vector2.Zero;
 
@@ -27,11 +32,15 @@ public partial class Bat : CharacterBody2D
         _ = MoveAndSlide();
 	}
 
-    public void _OnHurtbox_AreaEntered(Area2D area)
+    public void _OnHurtbox_AreaEntered(Node area)
     {
-        GD.Print(area.GetOverlappingAreas());
-        _deathEffectSpawner.Spawn();
-        QueueFree();
+        if (area is WeaponHitbox weaponHitbox)
+        {
+            _knockback = weaponHitbox.KnockbackVector * _knockbackConst;
+            _hitEffectSpawner?.Spawn();
+        }
+        //_deathEffectSpawner?.Spawn();
+        //QueueFree();
     }
     #endregion
 }

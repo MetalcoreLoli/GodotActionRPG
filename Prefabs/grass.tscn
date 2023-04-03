@@ -1,22 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://chyd6lwn4m60s"]
+[gd_scene load_steps=7 format=3 uid="uid://chyd6lwn4m60s"]
 
 [ext_resource type="Texture2D" uid="uid://xa1vndbvkknn" path="res://World/Grass.png" id="1_drkhb"]
 [ext_resource type="Script" path="res://Scripts/Grass.cs" id="1_w0n0h"]
 [ext_resource type="PackedScene" uid="uid://dli6dw4lo0l5r" path="res://Prefabs/grass_effect.tscn" id="2_yvhhd"]
+[ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="3_7ygql"]
 [ext_resource type="PackedScene" uid="uid://d27yd7pfrb5op" path="res://Prefabs/hurtbox.tscn" id="4_k4fgr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kptm0"]
 size = Vector2(14, 14)
 
-[node name="Grass" type="Node2D"]
+[node name="Grass" type="Node2D" node_paths=PackedStringArray("_grassEffectSpawner")]
 script = ExtResource("1_w0n0h")
-_destroyEffectTemplate = ExtResource("2_yvhhd")
+_grassEffectSpawner = NodePath("effect_spawner")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("1_drkhb")
 centered = false
 offset = Vector2(-8, -8)
+
+[node name="effect_spawner" parent="." instance=ExtResource("3_7ygql")]
+_effectTemplate = ExtResource("2_yvhhd")
 
 [node name="Hurtbox" parent="." instance=ExtResource("4_k4fgr")]
 collision_layer = 8

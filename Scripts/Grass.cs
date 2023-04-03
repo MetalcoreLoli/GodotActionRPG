@@ -4,7 +4,7 @@ using System;
 public partial class Grass : Node2D
 {
     #region Private Members
-    [Export] private string _destroyEffectTemplatePath = string.Empty;
+    [Export] private PackedScene _destroyEffectTemplate = null!;
     #endregion
     #region Godot
 	// Called when the node enters the scene tree for the first time.
@@ -17,7 +17,7 @@ public partial class Grass : Node2D
 	{
         if (Input.IsActionJustPressed("Attack"))
         {
-            var effect = GD.Load<PackedScene>(_destroyEffectTemplatePath).Instantiate() as Node2D;
+            var effect = _destroyEffectTemplate.Instantiate() as Node2D;
             var world = GetTree().CurrentScene;
             world.AddChild(effect);
             effect.GlobalPosition = GlobalPosition;

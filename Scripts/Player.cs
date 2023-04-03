@@ -84,7 +84,7 @@ public partial class Player : CharacterBody2D
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	// public float Gravity => ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		switch (_currentState)
 		{

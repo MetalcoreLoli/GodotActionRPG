@@ -103,6 +103,9 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
+    public void _OnArea2D_AreaEntered(Area2D area)
+    {
+    }
 	// this method will be called at the end of attack animation
 	public void AttackAnimationFinished()
 	{

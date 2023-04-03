@@ -418,6 +418,7 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSet" id="TileSet_b3uar"]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
@@ -450,7 +451,7 @@ layer_0/tile_data = PackedInt32Array(65540, 262144, 0, 131076, 196608, 2, 65541,
 y_sort_enabled = true
 
 [node name="Player" parent="Entities" instance=ExtResource("2_odwu6")]
-position = Vector2(64, 40)
+position = Vector2(56, 40)
 
 [node name="Bushes" type="Node2D" parent="Entities"]
 y_sort_enabled = true

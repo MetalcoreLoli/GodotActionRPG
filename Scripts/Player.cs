@@ -5,6 +5,7 @@ public partial class Player : CharacterBody2D
 {
 	#region Private members
 	[Export] private float _speed = 80.0f;
+	[Export] private float _rollSpeed = 0.5f;
 	[Export] private float _acceleration = 500.0f;
 	[Export] private float _friction = 500.0f;
 
@@ -19,6 +20,10 @@ public partial class Player : CharacterBody2D
 
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
+    private void Move()
+    {
+        _ = MoveAndSlide();
+    }
     #region State Implementations
 	//TODO: move into a its own class
 	private void MoveState(double delta)
@@ -28,12 +33,13 @@ public partial class Player : CharacterBody2D
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		_currentDirection = direction;
 		if (direction != Vector2.Zero)
 		{
+            _currentDirection = direction;
 			_animationTree?.Set("parameters/Idle/blend_position", direction);
 			_animationTree?.Set("parameters/Attack/blend_position", direction);
 			_animationTree?.Set("parameters/Run/blend_position", direction);
+			_animationTree?.Set("parameters/Roll/blend_position", direction);
 			_currentAnimationState?.Travel("Run");
 			velocity = velocity.MoveToward(direction * Speed, Acceleration * (float)delta);
 		}
@@ -44,12 +50,18 @@ public partial class Player : CharacterBody2D
 		}
 
 		Velocity = velocity;
-		_ = MoveAndSlide();
+        Move();
 
 		// trigger for transition to the AttackState
 		if (Input.IsActionJustPressed("Attack"))
 		{
 			_currentState = State.Attack;
+		}
+		
+        // trigger for transition to the RollState
+		if (Input.IsActionJustPressed("Roll"))
+		{
+			_currentState = State.Roll;
 		}
 	}
 
@@ -57,18 +69,20 @@ public partial class Player : CharacterBody2D
 	{
 		Velocity = Vector2.Zero;
 		_currentAnimationState?.Travel("Attack");
-		//_currentState = State.Idle;
 	}
 
 	private void RollState(double delta)
 	{
-		throw new NotImplementedException();
+		Velocity = _currentDirection * RollSpeed;
+		_currentAnimationState?.Travel("Roll");
+        Move();
 	}
     #endregion
 	#endregion
 
 	#region Properties
 	public float Speed => _speed;
+	public float RollSpeed => _rollSpeed;
 	public float Friction => _friction;
 	public float Acceleration => _acceleration;
 	#endregion
@@ -106,6 +120,13 @@ public partial class Player : CharacterBody2D
     public void _OnArea2D_AreaEntered(Area2D area)
     {
     }
+
+	// this method will be called at the end of attack animation
+	public void RollAnimationFinished()
+	{
+		_currentState = State.Idle;
+	}
+
 	// this method will be called at the end of attack animation
 	public void AttackAnimationFinished()
 	{

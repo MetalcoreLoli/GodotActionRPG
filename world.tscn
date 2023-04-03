@@ -452,6 +452,7 @@ y_sort_enabled = true
 
 [node name="Player" parent="Entities" instance=ExtResource("2_odwu6")]
 position = Vector2(56, 40)
+_rollSpeed = 100.0
 
 [node name="Bushes" type="Node2D" parent="Entities"]
 y_sort_enabled = true

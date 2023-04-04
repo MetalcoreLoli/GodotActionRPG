@@ -70,7 +70,7 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_k5p6b")
 animation = &"Fly"
 autoplay = "Fly"
-frame_progress = 0.730169
+frame_progress = 0.587934
 offset = Vector2(0, -12)
 
 [node name="Shadow" type="Sprite2D" parent="."]

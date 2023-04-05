@@ -16,6 +16,8 @@ public partial class Bat : CharacterBody2D
     [Export, ExportGroup("Effects")]
     private EffectSpawner _deathEffectSpawner = null!;
 
+    [Export] private Stats _stats = null!;
+
     private Vector2 _knockback = Vector2.Zero;
 
     #endregion
@@ -23,6 +25,11 @@ public partial class Bat : CharacterBody2D
     public override void _Ready()
     {
         _hurtbox.AreaEntered += _OnHurtbox_AreaEntered;
+        _stats.Death += (Node killer) =>
+        {
+            _deathEffectSpawner?.Spawn();
+            QueueFree();
+        };
     }
 
     public override void _PhysicsProcess(double delta)
@@ -34,13 +41,27 @@ public partial class Bat : CharacterBody2D
 
     public void _OnHurtbox_AreaEntered(Node area)
     {
-        if (area is WeaponHitbox weaponHitbox)
+        if (area is Weapon weapon)
         {
-            _knockback = weaponHitbox.KnockbackVector * _knockbackConst;
+            _knockback = weapon.KnockbackVector * _knockbackConst;
             _hitEffectSpawner?.Spawn();
+            _stats.Damage(weapon.Damage, area, this);
         }
-        //_deathEffectSpawner?.Spawn();
-        //QueueFree();
+    }
+
+    public void _OnTakeDamage(int damage, Node from, Node to)
+    {
+        if (from is null)
+        {
+            throw new ArgumentNullException(nameof(from));
+        }
+
+        if (to is null)
+        {
+            throw new ArgumentNullException(nameof(to));
+        }
+
+        GD.Print("-" + damage);
     }
     #endregion
 }

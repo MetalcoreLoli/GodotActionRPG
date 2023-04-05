@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://26iyokstnlwi"]
+[gd_scene load_steps=17 format=3 uid="uid://26iyokstnlwi"]
 
 [ext_resource type="Script" path="res://Scripts/Bat.cs" id="1_lwqv0"]
 [ext_resource type="Texture2D" uid="uid://bdrvsgxpggf5p" path="res://Enemies/Bat.png" id="1_ox4lg"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://d27yd7pfrb5op" path="res://Prefabs/hurtbox.tscn" id="3_hn435"]
 [ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="5_j12qd"]
 [ext_resource type="PackedScene" uid="uid://cf5p060ir6kpr" path="res://Prefabs/hit_effect.tscn" id="5_wa62b"]
+[ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="8_4sabs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sv80"]
 atlas = ExtResource("1_ox4lg")
@@ -58,12 +59,13 @@ radius = 4.0
 radius = 6.0
 height = 18.0
 
-[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_hitEffectSpawner", "_deathEffectSpawner")]
+[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_hitEffectSpawner", "_deathEffectSpawner", "_stats")]
 collision_layer = 32
 script = ExtResource("1_lwqv0")
 _hurtbox = NodePath("Hurtbox")
 _hitEffectSpawner = NodePath("hit_effect_spawner")
 _deathEffectSpawner = NodePath("death_effect_spawner")
+_stats = NodePath("Stats")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -93,5 +95,10 @@ collision_mask = 16
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(0, -13)
 shape = SubResource("CapsuleShape2D_dud8e")
+
+[node name="Stats" parent="." instance=ExtResource("8_4sabs")]
+Name = "Bat"
+
+[connection signal="TakeDamage" from="Stats" to="." method="_OnTakeDamage"]
 
 [editable path="Hurtbox"]

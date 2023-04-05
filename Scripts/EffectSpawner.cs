@@ -7,7 +7,7 @@ public partial class EffectSpawner : Node2D
 
     [Export] private PackedScene _effectTemplate = null!;
 
-    public void Spawn()
+    public void SpawnAt(Vector2 position)
     {
         if (_effectTemplate is null)
         {
@@ -17,6 +17,11 @@ public partial class EffectSpawner : Node2D
         var world = GetTree().CurrentScene;
         world.AddChild(effect);
         effect.GlobalPosition = GlobalPosition;
+    }
+
+    public void Spawn()
+    {
+        SpawnAt(GlobalPosition);
     }
     #endregion
 }

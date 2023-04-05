@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://33fbar6w6q0t" path="res://World/GrassBackground.png" id="1_wl7m5"]
 [ext_resource type="TileSet" uid="uid://d3h060c6v55ss" path="res://World/world.tres" id="2_ln1ur"]
 [ext_resource type="PackedScene" uid="uid://bdrrqepvul45r" path="res://Prefabs/bush.tscn" id="2_n7ve1"]
-[ext_resource type="PackedScene" uid="uid://cl5s53i37ck4i" path="res://Prefabs/player.tscn" id="2_odwu6"]
+[ext_resource type="PackedScene" uid="uid://d1gh5r25p7v5m" path="res://Prefabs/player.tscn" id="2_odwu6"]
 [ext_resource type="Texture2D" uid="uid://d2nbfdtorsdr4" path="res://World/CliffTileset.png" id="3_r7lyg"]
 [ext_resource type="PackedScene" uid="uid://26iyokstnlwi" path="res://Prefabs/bat.tscn" id="5_ayly1"]
 [ext_resource type="PackedScene" uid="uid://chyd6lwn4m60s" path="res://Prefabs/grass.tscn" id="6_y3re8"]

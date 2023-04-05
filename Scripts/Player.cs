@@ -16,7 +16,9 @@ public partial class Player : CharacterBody2D
 	private State _currentState = State.Idle;
 
     //TODO: create weaponhitbox class 
-    [Export] private WeaponHitbox _weaponHitbox = null!;
+    [Export] private Weapon _weapon = null!;
+
+    [Export] private Stats _stats = null!;
 
 	[Export] private AnimationTree _animationTree = null!;
 	[Export] private AnimationPlayer _animationPlayer = null!;
@@ -39,8 +41,8 @@ public partial class Player : CharacterBody2D
 		if (direction != Vector2.Zero)
 		{
             _currentDirection = direction;
-            if (_weaponHitbox is not null)
-                _weaponHitbox.KnockbackVector = _currentDirection;
+            if (_weapon is not null)
+                _weapon.KnockbackVector = _currentDirection;
 
 			_animationTree?.Set("parameters/Idle/blend_position", direction);
 			_animationTree?.Set("parameters/Attack/blend_position", direction);

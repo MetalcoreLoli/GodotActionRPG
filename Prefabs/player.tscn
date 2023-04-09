@@ -677,12 +677,17 @@ graph_offset = Vector2(-323, -95)
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_stats", "_animationTree", "_animationPlayer")]
 collision_layer = 2
 script = ExtResource("1_fhnjt")
+_rollSpeed = 150.0
 _weapon = NodePath("HitBoxPivot/SwordHitBox")
 _stats = NodePath("Stats")
 _animationTree = NodePath("AnimationTree")
 _animationPlayer = NodePath("AnimationPlayer")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+limit_left = -160
+limit_top = -128
+limit_right = 480
+limit_bottom = 282
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

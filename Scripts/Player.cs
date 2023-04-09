@@ -15,21 +15,21 @@ public partial class Player : CharacterBody2D
 	[Export(PropertyHint.Flags, "Idle,Attack,Move,Roll")]
 	private State _currentState = State.Idle;
 
-    //TODO: create weaponhitbox class 
-    [Export] private Weapon _weapon = null!;
+	//TODO: create weaponhitbox class 
+	[Export] private Weapon _weapon = null!;
 
-    [Export] private Stats _stats = null!;
+	[Export] private Stats _stats = null!;
 
 	[Export] private AnimationTree _animationTree = null!;
 	[Export] private AnimationPlayer _animationPlayer = null!;
 
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
-    private void Move()
-    {
-        _ = MoveAndSlide();
-    }
-    #region State Implementations
+	private void Move()
+	{
+		_ = MoveAndSlide();
+	}
+	#region State Implementations
 	//TODO: move into a its own class
 	private void MoveState(double delta)
 	{
@@ -40,9 +40,9 @@ public partial class Player : CharacterBody2D
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		if (direction != Vector2.Zero)
 		{
-            _currentDirection = direction;
-            if (_weapon is not null)
-                _weapon.KnockbackVector = _currentDirection;
+			_currentDirection = direction;
+			if (_weapon is not null)
+				_weapon.KnockbackVector = _currentDirection;
 
 			_animationTree?.Set("parameters/Idle/blend_position", direction);
 			_animationTree?.Set("parameters/Attack/blend_position", direction);
@@ -59,7 +59,7 @@ public partial class Player : CharacterBody2D
 		}
 
 		Velocity = velocity;
-        Move();
+		Move();
 
 		// trigger for transition to the AttackState
 		if (Input.IsActionJustPressed("Attack"))
@@ -67,7 +67,7 @@ public partial class Player : CharacterBody2D
 			_currentState = State.Attack;
 		}
 		
-        // trigger for transition to the RollState
+		// trigger for transition to the RollState
 		if (Input.IsActionJustPressed("Roll"))
 		{
 			_currentState = State.Roll;
@@ -85,9 +85,9 @@ public partial class Player : CharacterBody2D
 	{
 		Velocity = _currentDirection * RollSpeed;
 		_currentAnimationState?.Travel("Roll");
-        Move();
+		Move();
 	}
-    #endregion
+	#endregion
 	#endregion
 
 	#region Properties
@@ -127,9 +127,9 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-    public void _OnArea2D_AreaEntered(Area2D area)
-    {
-    }
+	public void _OnArea2D_AreaEntered(Area2D area)
+	{
+	}
 
 	// this method will be called at the end of attack animation
 	public void RollAnimationFinished()

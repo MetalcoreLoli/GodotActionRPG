@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://xa1vndbvkknn" path="res://World/Grass.png" id="1_drkhb"]
 [ext_resource type="Script" path="res://Scripts/Grass.cs" id="1_w0n0h"]
-[ext_resource type="PackedScene" uid="uid://dli6dw4lo0l5r" path="res://Prefabs/grass_effect.tscn" id="2_yvhhd"]
 [ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="3_7ygql"]
+[ext_resource type="PackedScene" uid="uid://d26orfdrhbd02" path="res://Prefabs/effects/grass_effect.tscn" id="4_gw3fl"]
 [ext_resource type="PackedScene" uid="uid://d27yd7pfrb5op" path="res://Prefabs/hurtbox.tscn" id="4_k4fgr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kptm0"]
@@ -20,13 +20,14 @@ centered = false
 offset = Vector2(-8, -8)
 
 [node name="effect_spawner" parent="." instance=ExtResource("3_7ygql")]
-_effectTemplate = ExtResource("2_yvhhd")
+_effectTemplate = ExtResource("4_gw3fl")
 
 [node name="Hurtbox" parent="." instance=ExtResource("4_k4fgr")]
 collision_layer = 8
 collision_mask = 16
+_isHitEffectNeeded = false
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+[node name="CollisionShape2D" parent="Hurtbox" index="1"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_kptm0")
 

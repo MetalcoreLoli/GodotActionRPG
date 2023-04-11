@@ -11,9 +11,6 @@ public partial class Bat : CharacterBody2D
 	[Export] private float _knockbackConst = 135;
 
 	[Export, ExportGroup("Effects")]
-	private EffectSpawner _hitEffectSpawner = null!;
-
-	[Export, ExportGroup("Effects")]
 	private EffectSpawner _deathEffectSpawner = null!;
 
 	[Export] private Stats _stats = null!;
@@ -44,7 +41,6 @@ public partial class Bat : CharacterBody2D
 		if (area is Weapon weapon)
 		{
 			_knockback = weapon.KnockbackVector * _knockbackConst;
-			_hitEffectSpawner?.Spawn();
 			_stats.Damage(weapon.Damage, area, this);
 		}
 	}

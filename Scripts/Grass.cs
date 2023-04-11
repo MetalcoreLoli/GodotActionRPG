@@ -3,10 +3,10 @@ using System;
 
 public partial class Grass : Node2D
 {
-    #region Private Members
-    [Export] private EffectSpawner _grassEffectSpawner = null!;
-    #endregion
-    #region Godot
+	#region Private Members
+	[Export] private EffectSpawner _grassEffectSpawner = null!;
+	#endregion
+	#region Godot
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -17,11 +17,11 @@ public partial class Grass : Node2D
 	{
 	}
 
-    public void _OnArea2D_AreaEntered(Area2D area)
-    {
-        GD.Print("Sword hit the grass");
-        _grassEffectSpawner.Spawn();
-        QueueFree();
-    }
-    #endregion
+	public void _OnArea2D_AreaEntered(Area2D area)
+	{
+		GD.Print("Sword hit the grass");
+		_grassEffectSpawner.Spawn();
+		QueueFree();
+	}
+	#endregion
 }

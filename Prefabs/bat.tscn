@@ -1,12 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://26iyokstnlwi"]
+[gd_scene load_steps=16 format=3 uid="uid://cqmr431v41cj4"]
 
 [ext_resource type="Script" path="res://Scripts/Bat.cs" id="1_lwqv0"]
 [ext_resource type="Texture2D" uid="uid://bdrvsgxpggf5p" path="res://Enemies/Bat.png" id="1_ox4lg"]
-[ext_resource type="PackedScene" uid="uid://dt4ryj4uy241u" path="res://Prefabs/enemy_death_effect.tscn" id="2_34lux"]
 [ext_resource type="Texture2D" uid="uid://jopfef6m7hcp" path="res://Shadows/SmallShadow.png" id="2_mjpsg"]
 [ext_resource type="PackedScene" uid="uid://d27yd7pfrb5op" path="res://Prefabs/hurtbox.tscn" id="3_hn435"]
 [ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="5_j12qd"]
-[ext_resource type="PackedScene" uid="uid://cf5p060ir6kpr" path="res://Prefabs/hit_effect.tscn" id="5_wa62b"]
+[ext_resource type="PackedScene" uid="uid://ch3fp0rybq5wh" path="res://Prefabs/effects/death_effect.tscn" id="6_gixw5"]
 [ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="8_4sabs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sv80"]
@@ -59,11 +58,10 @@ radius = 4.0
 radius = 6.0
 height = 18.0
 
-[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_hitEffectSpawner", "_deathEffectSpawner", "_stats")]
+[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_deathEffectSpawner", "_stats")]
 collision_layer = 32
 script = ExtResource("1_lwqv0")
 _hurtbox = NodePath("Hurtbox")
-_hitEffectSpawner = NodePath("hit_effect_spawner")
 _deathEffectSpawner = NodePath("death_effect_spawner")
 _stats = NodePath("Stats")
 
@@ -82,17 +80,14 @@ texture = ExtResource("2_mjpsg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5nerc")
 
-[node name="hit_effect_spawner" parent="." instance=ExtResource("5_j12qd")]
-_effectTemplate = ExtResource("5_wa62b")
-
 [node name="death_effect_spawner" parent="." instance=ExtResource("5_j12qd")]
-_effectTemplate = ExtResource("2_34lux")
+_effectTemplate = ExtResource("6_gixw5")
 
 [node name="Hurtbox" parent="." instance=ExtResource("3_hn435")]
 collision_layer = 8
 collision_mask = 16
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+[node name="CollisionShape2D" parent="Hurtbox" index="1"]
 position = Vector2(0, -13)
 shape = SubResource("CapsuleShape2D_dud8e")
 

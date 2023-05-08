@@ -19,7 +19,7 @@ public partial class Player : CharacterBody2D
 
 	[Export] private AnimationTree _animationTree = null!;
 	[Export] private AnimationPlayer _animationPlayer = null!;
-    [Export] private MovementComponent _movementComponent = null!;
+	[Export] private MovementComponent _movementComponent = null!;
 
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
@@ -30,7 +30,7 @@ public partial class Player : CharacterBody2D
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-        _movementComponent.Move(delta, direction);
+		_movementComponent.Move(delta, direction);
 
 		// trigger for transition to the AttackState
 		if (Input.IsActionJustPressed("Attack"))
@@ -39,7 +39,7 @@ public partial class Player : CharacterBody2D
 		}
 		
 		// trigger for transition to the RollState
-        // TODO: Roll 
+		// TODO: Roll 
 		//if (Input.IsActionJustPressed("Roll"))
 		//{
 		//	_currentState = State.Roll;
@@ -57,7 +57,7 @@ public partial class Player : CharacterBody2D
 	{
 		//Velocity = _currentDirection * RollSpeed;
 		//_currentAnimationState?.Travel("Roll");
-        //_movementComponent.Move(delta, _currentDirection * RollSpeed);
+		//_movementComponent.Move(delta, _currentDirection * RollSpeed);
 	}
 #endregion
 #endregion
@@ -97,23 +97,23 @@ public partial class Player : CharacterBody2D
 	{
 	}
 
-    public void _OnMovementComponent_PlayerMove(Vector2 direction)
-    {
-        if (_weapon is not null)
-            _weapon.KnockbackVector = direction;
+	public void _OnMovementComponent_PlayerMove(Vector2 direction)
+	{
+		if (_weapon is not null)
+			_weapon.KnockbackVector = direction;
 
-        _animationTree?.Set("parameters/Idle/blend_position", direction);
-        _animationTree?.Set("parameters/Attack/blend_position", direction);
-        _animationTree?.Set("parameters/Run/blend_position", direction);
-        _animationTree?.Set("parameters/Roll/blend_position", direction);
+		_animationTree?.Set("parameters/Idle/blend_position", direction);
+		_animationTree?.Set("parameters/Attack/blend_position", direction);
+		_animationTree?.Set("parameters/Run/blend_position", direction);
+		_animationTree?.Set("parameters/Roll/blend_position", direction);
 
-        _currentAnimationState?.Travel("Run");
-    }
+		_currentAnimationState?.Travel("Run");
+	}
 
-    public void _OnMovementComponent_PlayerStop()
-    {
-        _currentAnimationState?.Travel("Idle");
-    }
+	public void _OnMovementComponent_PlayerStop()
+	{
+		_currentAnimationState?.Travel("Idle");
+	}
 
 	// this method will be called at the end of attack animation
 	public void RollAnimationFinished()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://d1gh5r25p7v5m"]
+[gd_scene load_steps=57 format=3 uid="uid://d1gh5r25p7v5m"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_fhnjt"]
 [ext_resource type="Texture2D" uid="uid://c1jwr1scderkh" path="res://Player/Player.png" id="2_si0gq"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/Weapon.cs" id="4_n3wa2"]
 [ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="5_4vofd"]
 [ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="6_1brjl"]
+[ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="7_tces4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b35ho"]
 radius = 4.0
@@ -675,14 +676,14 @@ graph_offset = Vector2(-323, -95)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fylyf"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_stats", "_animationTree", "_animationPlayer", "_movementComponent")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_healthComponent", "_movementComponent")]
 collision_layer = 2
 script = ExtResource("1_fhnjt")
 _rollSpeed = 150.0
 _weapon = NodePath("HitBoxPivot/SwordHitBox")
-_stats = NodePath("Stats")
 _animationTree = NodePath("AnimationTree")
 _animationPlayer = NodePath("AnimationPlayer")
+_healthComponent = NodePath("HealthComponent")
 _movementComponent = NodePath("MovementComponent")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -732,10 +733,11 @@ shape = SubResource("CapsuleShape2D_fylyf")
 disabled = true
 
 [node name="Stats" parent="." instance=ExtResource("5_4vofd")]
-Name = "Player"
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("_movableCharacter") instance=ExtResource("6_1brjl")]
 _movableCharacter = NodePath("..")
+
+[node name="HealthComponent" parent="." instance=ExtResource("7_tces4")]
 
 [connection signal="area_entered" from="HitBoxPivot/SwordHitBox" to="." method="_OnArea2D_AreaEntered"]
 [connection signal="OnMove" from="MovementComponent" to="." method="_OnMovementComponent_PlayerMove"]

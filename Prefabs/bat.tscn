@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cqmr431v41cj4"]
+[gd_scene load_steps=18 format=3 uid="uid://cqmr431v41cj4"]
 
 [ext_resource type="Script" path="res://Scripts/Bat.cs" id="1_lwqv0"]
 [ext_resource type="Texture2D" uid="uid://bdrvsgxpggf5p" path="res://Enemies/Bat.png" id="1_ox4lg"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="5_j12qd"]
 [ext_resource type="PackedScene" uid="uid://ch3fp0rybq5wh" path="res://Prefabs/effects/death_effect.tscn" id="6_gixw5"]
 [ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="8_4sabs"]
+[ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="8_osjth"]
 [ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="8_sf3uh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sv80"]
@@ -59,13 +60,13 @@ radius = 4.0
 radius = 6.0
 height = 18.0
 
-[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_deathEffectSpawner", "_movementCompoment", "_stats")]
+[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_deathEffectSpawner", "_movementCompoment", "_healthComponent")]
 collision_layer = 32
 script = ExtResource("1_lwqv0")
 _hurtbox = NodePath("Hurtbox")
 _deathEffectSpawner = NodePath("death_effect_spawner")
 _movementCompoment = NodePath("MovementComponent")
-_stats = NodePath("Stats")
+_healthComponent = NodePath("HealthComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -94,11 +95,10 @@ position = Vector2(0, -13)
 shape = SubResource("CapsuleShape2D_dud8e")
 
 [node name="Stats" parent="." instance=ExtResource("8_4sabs")]
-Name = "Bat"
+
+[node name="HealthComponent" parent="." instance=ExtResource("8_osjth")]
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("_movableCharacter") instance=ExtResource("8_sf3uh")]
 _movableCharacter = NodePath("..")
-
-[connection signal="TakeDamage" from="Stats" to="." method="_OnTakeDamage"]
 
 [editable path="Hurtbox"]

@@ -14,10 +14,11 @@ public partial class Bat : CharacterBody2D
 	[Export, ExportGroup("Effects")]
 	private EffectSpawner _deathEffectSpawner = null!;
 
-	[Export] private MovementComponent _movementCompoment = null!;
+	[Export, ExportGroup("Components")]
+	private MovementComponent _movementCompoment = null!;
 
-	[Export] private Stats _stats = null!;
-
+	[Export, ExportGroup("Components")]
+	private HealthComponent _healthComponent = null!;
 
 	private double _delta;
 	private Vector2 _knockback = Vector2.Zero;
@@ -29,14 +30,14 @@ public partial class Bat : CharacterBody2D
 	public override void _Ready()
 	{
 		_hurtbox.AreaEntered += _OnHurtbox_AreaEntered;
-		_stats.Death += (Node killer) =>
+		_healthComponent.OnDeath += (Node killer) =>
 		{
 			_deathEffectSpawner?.Spawn();
 			QueueFree();
 		};
 
-        // this is so unstable 
-        // and i don't know why... sometimes it's work, sometimes not
+		// this is so unstable 
+		// and i don't know why... sometimes it's work, sometimes not
 		var seq = new SequenceNode() { Name = "Left to right" };
 		_ = seq
 			.Add(new Leaf(() =>
@@ -67,7 +68,7 @@ public partial class Bat : CharacterBody2D
 		if (area is Weapon weapon)
 		{
 			_knockback = weapon.KnockbackVector * _knockbackConst;
-			_stats.Damage(weapon.Damage, area, this);
+			_healthComponent.TakeDamage(weapon.Damage, area, this);
 		}
 	}
 

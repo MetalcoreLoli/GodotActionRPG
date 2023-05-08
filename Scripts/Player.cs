@@ -15,11 +15,15 @@ public partial class Player : CharacterBody2D
 	//TODO: create weaponhitbox class 
 	[Export] private Weapon _weapon = null!;
 
-	[Export] private Stats _stats = null!;
 
 	[Export] private AnimationTree _animationTree = null!;
 	[Export] private AnimationPlayer _animationPlayer = null!;
-	[Export] private MovementComponent _movementComponent = null!;
+
+	[Export, ExportGroup("Components")]
+	private HealthComponent _healthComponent = null!;
+
+	[Export, ExportGroup("Components")]
+	private MovementComponent _movementComponent = null!;
 
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 

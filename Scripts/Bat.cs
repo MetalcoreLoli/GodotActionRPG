@@ -1,6 +1,8 @@
 using Godot;
 using System.Linq;
 using System;
+using System.Collections.Generic;
+using ActionRPG.Scripts.Ai;
 
 public partial class Bat : CharacterBody2D
 {
@@ -16,8 +18,11 @@ public partial class Bat : CharacterBody2D
 
 	[Export] private Stats _stats = null!;
 
+
 	private double _delta;
 	private Vector2 _knockback = Vector2.Zero;
+
+	private BehaviourTree _behaviourTree = new();
 
 #endregion
 #region Godot
@@ -29,6 +34,24 @@ public partial class Bat : CharacterBody2D
 			_deathEffectSpawner?.Spawn();
 			QueueFree();
 		};
+
+        // this is so unstable 
+        // and i don't know why... sometimes it's work, sometimes not
+		var seq = new SequenceNode() { Name = "Left to right" };
+		_ = seq
+			.Add(new Leaf(() =>
+					{
+						_movementCompoment.Move(_delta, Vector2.Up);
+						return AiActionStatus.Succeded;
+					}){Name = "go up"})
+			.Add(new Leaf(() =>
+					{
+						_movementCompoment.Move(_delta, Vector2.Left);
+						return AiActionStatus.Succeded;
+					}){Name = "go left"});
+		
+		_ = _behaviourTree.Add(seq);
+
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -36,6 +59,7 @@ public partial class Bat : CharacterBody2D
 		_delta = delta;
 		_knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
 		Velocity = _knockback;
+		_ = _behaviourTree.Execute();
 	}
 
 	public void _OnHurtbox_AreaEntered(Node area)

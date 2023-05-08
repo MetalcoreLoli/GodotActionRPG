@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class Player : CharacterBody2D
@@ -21,11 +22,6 @@ public partial class Player : CharacterBody2D
     [Export] private MovementComponent _movementComponent = null!;
 
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
-
-	private void Move()
-	{
-		_ = MoveAndSlide();
-	}
 
 #region State Implementations
 	//TODO: move into a its own class

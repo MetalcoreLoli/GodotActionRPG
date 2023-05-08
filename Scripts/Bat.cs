@@ -1,6 +1,7 @@
 using Godot;
-using System;
+using GodotActionRpg.Scripts.Ai;
 using System.Linq;
+using System;
 
 public partial class Bat : CharacterBody2D
 {
@@ -10,12 +11,18 @@ public partial class Bat : CharacterBody2D
 	[Export] private float _friction = 200;
 	[Export] private float _knockbackConst = 135;
 
+
 	[Export, ExportGroup("Effects")]
 	private EffectSpawner _deathEffectSpawner = null!;
 
+    [Export] private MovementComponent _movementCompoment = null!;
+
 	[Export] private Stats _stats = null!;
 
-	private Vector2 _knockback = Vector2.Zero;
+    private double _delta;
+    private Vector2 _knockback = Vector2.Zero;
+
+    private BehaviourTree _behaviourTree = new();
 
 	#endregion
 	#region Godot
@@ -27,13 +34,25 @@ public partial class Bat : CharacterBody2D
 			_deathEffectSpawner?.Spawn();
 			QueueFree();
 		};
+
+        var goTo = new Leaf(() =>
+                {
+                    _movementCompoment.Move(_delta, new []{Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right}[GD.RandRange(0, 3)]);
+                    return AiActionStatus.Succeded;
+                })
+        {
+            Name = "goTo"
+        };
+
+        _ = _behaviourTree.Add(goTo);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
+        _delta = delta;
 		_knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
 		Velocity = _knockback;
-		_ = MoveAndSlide();
+        _ = _behaviourTree.Execute();
 	}
 
 	public void _OnHurtbox_AreaEntered(Node area)

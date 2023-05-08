@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cjq7wvgvb1ogh" path="res://Prefabs/hitbox.tscn" id="3_48l26"]
 [ext_resource type="Script" path="res://Scripts/Weapon.cs" id="4_n3wa2"]
 [ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="5_4vofd"]
-[ext_resource type="Script" path="res://Scripts/MovementComponent.cs" id="6_hoi4g"]
+[ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="6_1brjl"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b35ho"]
 radius = 4.0
@@ -734,8 +734,7 @@ disabled = true
 [node name="Stats" parent="." instance=ExtResource("5_4vofd")]
 Name = "Player"
 
-[node name="MovementComponent" type="Node2D" parent="." node_paths=PackedStringArray("_movableCharacter")]
-script = ExtResource("6_hoi4g")
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("_movableCharacter") instance=ExtResource("6_1brjl")]
 _movableCharacter = NodePath("..")
 
 [connection signal="area_entered" from="HitBoxPivot/SwordHitBox" to="." method="_OnArea2D_AreaEntered"]

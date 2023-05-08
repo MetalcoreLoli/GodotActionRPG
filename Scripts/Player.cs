@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Player : CharacterBody2D
 {
@@ -36,28 +35,6 @@ public partial class Player : CharacterBody2D
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
         _movementComponent.Move(delta, direction);
-		//if (direction != Vector2.Zero)
-		//{
-		//	_currentDirection = direction;
-		//	if (_weapon is not null)
-		//		_weapon.KnockbackVector = _currentDirection;
-
-		//	_animationTree?.Set("parameters/Idle/blend_position", direction);
-		//	_animationTree?.Set("parameters/Attack/blend_position", direction);
-		//	_animationTree?.Set("parameters/Run/blend_position", direction);
-		//	_animationTree?.Set("parameters/Roll/blend_position", direction);
-
-		//	_currentAnimationState?.Travel("Run");
-		//	velocity = velocity.MoveToward(direction * Speed, Acceleration * (float)delta);
-		//}
-		//else
-		//{
-		//	_currentAnimationState?.Travel("Idle");
-		//	velocity = velocity.MoveToward(Vector2.Zero, Friction * (float)delta);
-		//}
-
-		//Velocity = velocity;
-		//Move();
 
 		// trigger for transition to the AttackState
 		if (Input.IsActionJustPressed("Attack"))
@@ -66,10 +43,11 @@ public partial class Player : CharacterBody2D
 		}
 		
 		// trigger for transition to the RollState
-		if (Input.IsActionJustPressed("Roll"))
-		{
-			_currentState = State.Roll;
-		}
+        // TODO: Roll 
+		//if (Input.IsActionJustPressed("Roll"))
+		//{
+		//	_currentState = State.Roll;
+		//}
 	}
 
 	private void AttackState(double delta)
@@ -99,9 +77,6 @@ public partial class Player : CharacterBody2D
 		_currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
 		//_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 	}
-
-	// Get the gravity from the project settings to be synced with RigidBody nodes.
-	// public float Gravity => ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
 	public override void _PhysicsProcess(double delta)
 	{

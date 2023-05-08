@@ -3,11 +3,8 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	#region Private members
-	[Export] private float _speed = 80.0f;
+#region Private members
 	[Export] private float _rollSpeed = 0.5f;
-	[Export] private float _acceleration = 500.0f;
-	[Export] private float _friction = 500.0f;
 
 	[Export(PropertyHint.Range, "-1,1")]
 	private Vector2 _currentDirection = Vector2.Zero;
@@ -22,6 +19,7 @@ public partial class Player : CharacterBody2D
 
 	[Export] private AnimationTree _animationTree = null!;
 	[Export] private AnimationPlayer _animationPlayer = null!;
+    [Export] private MovementComponent _movementComponent = null!;
 
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
@@ -29,37 +27,37 @@ public partial class Player : CharacterBody2D
 	{
 		_ = MoveAndSlide();
 	}
-	#region State Implementations
+
+#region State Implementations
 	//TODO: move into a its own class
 	private void MoveState(double delta)
 	{
-		Vector2 velocity = Velocity;
-
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-		if (direction != Vector2.Zero)
-		{
-			_currentDirection = direction;
-			if (_weapon is not null)
-				_weapon.KnockbackVector = _currentDirection;
+        _movementComponent.Move(delta, direction);
+		//if (direction != Vector2.Zero)
+		//{
+		//	_currentDirection = direction;
+		//	if (_weapon is not null)
+		//		_weapon.KnockbackVector = _currentDirection;
 
-			_animationTree?.Set("parameters/Idle/blend_position", direction);
-			_animationTree?.Set("parameters/Attack/blend_position", direction);
-			_animationTree?.Set("parameters/Run/blend_position", direction);
-			_animationTree?.Set("parameters/Roll/blend_position", direction);
+		//	_animationTree?.Set("parameters/Idle/blend_position", direction);
+		//	_animationTree?.Set("parameters/Attack/blend_position", direction);
+		//	_animationTree?.Set("parameters/Run/blend_position", direction);
+		//	_animationTree?.Set("parameters/Roll/blend_position", direction);
 
-			_currentAnimationState?.Travel("Run");
-			velocity = velocity.MoveToward(direction * Speed, Acceleration * (float)delta);
-		}
-		else
-		{
-			_currentAnimationState?.Travel("Idle");
-			velocity = velocity.MoveToward(Vector2.Zero, Friction * (float)delta);
-		}
+		//	_currentAnimationState?.Travel("Run");
+		//	velocity = velocity.MoveToward(direction * Speed, Acceleration * (float)delta);
+		//}
+		//else
+		//{
+		//	_currentAnimationState?.Travel("Idle");
+		//	velocity = velocity.MoveToward(Vector2.Zero, Friction * (float)delta);
+		//}
 
-		Velocity = velocity;
-		Move();
+		//Velocity = velocity;
+		//Move();
 
 		// trigger for transition to the AttackState
 		if (Input.IsActionJustPressed("Attack"))
@@ -83,21 +81,18 @@ public partial class Player : CharacterBody2D
 
 	private void RollState(double delta)
 	{
-		Velocity = _currentDirection * RollSpeed;
-		_currentAnimationState?.Travel("Roll");
-		Move();
+		//Velocity = _currentDirection * RollSpeed;
+		//_currentAnimationState?.Travel("Roll");
+        //_movementComponent.Move(delta, _currentDirection * RollSpeed);
 	}
-	#endregion
-	#endregion
+#endregion
+#endregion
 
-	#region Properties
-	public float Speed => _speed;
+#region Properties
 	public float RollSpeed => _rollSpeed;
-	public float Friction => _friction;
-	public float Acceleration => _acceleration;
-	#endregion
+#endregion
 
-	#region Godot
+#region Godot Stuff
 	public override void _Ready()
 	{
 		_animationTree.Active = true;
@@ -131,6 +126,24 @@ public partial class Player : CharacterBody2D
 	{
 	}
 
+    public void _OnMovementComponent_PlayerMove(Vector2 direction)
+    {
+        if (_weapon is not null)
+            _weapon.KnockbackVector = direction;
+
+        _animationTree?.Set("parameters/Idle/blend_position", direction);
+        _animationTree?.Set("parameters/Attack/blend_position", direction);
+        _animationTree?.Set("parameters/Run/blend_position", direction);
+        _animationTree?.Set("parameters/Roll/blend_position", direction);
+
+        _currentAnimationState?.Travel("Run");
+    }
+
+    public void _OnMovementComponent_PlayerStop()
+    {
+        _currentAnimationState?.Travel("Idle");
+    }
+
 	// this method will be called at the end of attack animation
 	public void RollAnimationFinished()
 	{
@@ -142,7 +155,7 @@ public partial class Player : CharacterBody2D
 	{
 		_currentState = State.Idle;
 	}
-	#endregion
+#endregion
 
 	[Flags]
 	public enum State: byte

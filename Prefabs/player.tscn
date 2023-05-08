@@ -1,10 +1,11 @@
-[gd_scene load_steps=55 format=3 uid="uid://d1gh5r25p7v5m"]
+[gd_scene load_steps=56 format=3 uid="uid://d1gh5r25p7v5m"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_fhnjt"]
 [ext_resource type="Texture2D" uid="uid://c1jwr1scderkh" path="res://Player/Player.png" id="2_si0gq"]
 [ext_resource type="PackedScene" uid="uid://cjq7wvgvb1ogh" path="res://Prefabs/hitbox.tscn" id="3_48l26"]
 [ext_resource type="Script" path="res://Scripts/Weapon.cs" id="4_n3wa2"]
 [ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="5_4vofd"]
+[ext_resource type="Script" path="res://Scripts/MovementComponent.cs" id="6_hoi4g"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b35ho"]
 radius = 4.0
@@ -674,7 +675,7 @@ graph_offset = Vector2(-323, -95)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fylyf"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_stats", "_animationTree", "_animationPlayer")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_stats", "_animationTree", "_animationPlayer", "_movementComponent")]
 collision_layer = 2
 script = ExtResource("1_fhnjt")
 _rollSpeed = 150.0
@@ -682,6 +683,7 @@ _weapon = NodePath("HitBoxPivot/SwordHitBox")
 _stats = NodePath("Stats")
 _animationTree = NodePath("AnimationTree")
 _animationPlayer = NodePath("AnimationPlayer")
+_movementComponent = NodePath("MovementComponent")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_left = -160
@@ -732,6 +734,12 @@ disabled = true
 [node name="Stats" parent="." instance=ExtResource("5_4vofd")]
 Name = "Player"
 
+[node name="MovementComponent" type="Node2D" parent="." node_paths=PackedStringArray("_movableCharacter")]
+script = ExtResource("6_hoi4g")
+_movableCharacter = NodePath("..")
+
 [connection signal="area_entered" from="HitBoxPivot/SwordHitBox" to="." method="_OnArea2D_AreaEntered"]
+[connection signal="OnMove" from="MovementComponent" to="." method="_OnMovementComponent_PlayerMove"]
+[connection signal="OnStop" from="MovementComponent" to="." method="_OnMovementComponent_PlayerStop"]
 
 [editable path="HitBoxPivot/SwordHitBox"]

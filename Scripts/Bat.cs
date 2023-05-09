@@ -27,33 +27,33 @@ public partial class Bat : CharacterBody2D
 
 #endregion
 #region Godot
-	public override void _Ready()
-	{
-		_hurtbox.AreaEntered += _OnHurtbox_AreaEntered;
-		_healthComponent.OnDeath += (Node killer) =>
-		{
-			_deathEffectSpawner?.Spawn();
-			QueueFree();
-		};
+    public override void _Ready()
+    {
+        _hurtbox.AreaEntered += _OnHurtbox_AreaEntered;
+        _healthComponent.OnDeath += (Node killer) =>
+        {
+            _deathEffectSpawner?.Spawn();
+            QueueFree();
+        };
 
-		// this is so unstable 
-		// and i don't know why... sometimes it's work, sometimes not
-		var seq = new SequenceNode() { Name = "Left to right" };
-		_ = seq
-			.Add(new Leaf(() =>
-					{
-						_movementCompoment.Move(_delta, Vector2.Up);
-						return AiActionStatus.Succeded;
-					}){Name = "go up"})
-			.Add(new Leaf(() =>
-					{
-						_movementCompoment.Move(_delta, Vector2.Left);
-						return AiActionStatus.Succeded;
-					}){Name = "go left"});
-		
-		_ = _behaviourTree.Add(seq);
+        // this is so unstable 
+        // and i don't know why... sometimes it's work, sometimes not
+        var seq = new SequenceNode("Left to right");
+        _ = seq
+            .Add(new Leaf("go to right", () =>
+                    {
+                        _movementCompoment.Move(_delta, Vector2.Up);
+                        return AiActionStatus.Succeded;
+                    }))
+            .Add(new Leaf("go to left", () =>
+                    {
+                        _movementCompoment.Move(_delta, Vector2.Left);
+                        return AiActionStatus.Succeded;
+                    }));
 
-	}
+        _ = _behaviourTree.Add(seq);
+
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{

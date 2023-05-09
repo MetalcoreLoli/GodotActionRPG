@@ -43,12 +43,12 @@ public partial class Bat : CharacterBody2D
             .Add(new Leaf("go to right", () =>
                     {
                         _movementCompoment.Move(_delta, Vector2.Up);
-                        return AiActionStatus.Succeded;
+                        return AiActionStatus.Success;
                     }))
             .Add(new Leaf("go to left", () =>
                     {
                         _movementCompoment.Move(_delta, Vector2.Left);
-                        return AiActionStatus.Succeded;
+                        return AiActionStatus.Success;
                     }));
 
         _ = _behaviourTree.Add(seq);

@@ -41,7 +41,7 @@ public struct SequenceNode : IAiActionNode
 		if (_currentChild >= Children.Count)
 		{
 			_currentChild = 0;
-			return AiActionStatus.Succeded;
+			return AiActionStatus.Success;
 		}
 		return AiActionStatus.Running;
 	}

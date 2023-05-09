@@ -4,13 +4,14 @@ using System.Linq;
 using Godot;
 
 namespace ActionRPG.Scripts.Ai;
-public class Leaf : IAiActionNode
+public readonly struct Leaf : IAiActionNode
 {
     private readonly Func<AiActionStatus> _action;
 
-    public Leaf(Func<AiActionStatus> action)
+    public Leaf(string name, Func<AiActionStatus> action)
     {
         _action = action;
+        Name = name;
     }
 
     public string Name { get; init; }

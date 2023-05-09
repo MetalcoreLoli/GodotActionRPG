@@ -4,16 +4,18 @@ using Godot;
 
 namespace ActionRPG.Scripts.Ai;
 
-public class SequenceNode : IAiActionNode
+public struct SequenceNode : IAiActionNode
 {
 	private int _currentChild;
 
 	public string Name { get; init; }
 
 	public List<IAiActionNode> Children {get;}
-	public SequenceNode()
+	public SequenceNode(string name)
 	{
 		Children = new();
+        Name = name;
+        _currentChild = 0;
 	}
 
 	public IAiActionNode Add(IAiActionNode node)
@@ -25,7 +27,7 @@ public class SequenceNode : IAiActionNode
 
 	public AiActionStatus Execute()
 	{
-		var childStatus = Children.First().Execute();
+		var childStatus = Children[_currentChild].Execute();
 		if (childStatus is AiActionStatus.Running)
 		{
 			return AiActionStatus.Running;

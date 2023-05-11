@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bvb0bl1btk3co"]
+[gd_scene load_steps=11 format=3 uid="uid://bvb0bl1btk3co"]
 
 [ext_resource type="Texture2D" uid="uid://33fbar6w6q0t" path="res://World/GrassBackground.png" id="1_wl7m5"]
 [ext_resource type="TileSet" uid="uid://d3h060c6v55ss" path="res://World/world.tres" id="2_ln1ur"]
@@ -426,6 +426,11 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_12rdp")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_54h81"]
+vertices = PackedVector2Array(32, 64, 32, 32, 136, 32, 120, 56, 64, 96, 352, 128, 320, 128, 328, -8, 448, -96, 224, 56, 224, 32, 288, 32, 288, 80, 256, 80, 256, 112, 224, 112, 224, 96, 216, 64, 192, 96, 160, 64, 136, 72, 288, 112, 288, 128, 256, 128, 256, 160, 48, 160, 224, 128, 32, 160, 32, 152, 64, 128, 192, 128, 32, 128, -8, 200, 88, 200, 88, 232, 0, 256, -64, 256, -64, 224, 192, 224, 192, 192, 448, 192, 448, 256, -40, 64, -96, 224, -96, 192, -40, 24, -128, 192, -128, -96, 0, -96, 0, -64, 64, -64, 64, -96, 448, 128, 416, 128, 416, 160, 352, 160, 0, -8, -8, 24, -8, 96, 32, 96)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 10, 11, 12, 13), PackedInt32Array(13, 14, 15, 16), PackedInt32Array(17, 9, 13, 16, 18), PackedInt32Array(19, 17, 18, 20), PackedInt32Array(21, 22, 23, 15), PackedInt32Array(23, 24, 25, 26), PackedInt32Array(25, 27, 28, 29, 30), PackedInt32Array(28, 31, 29), PackedInt32Array(32, 33, 34, 35, 36, 37), PackedInt32Array(38, 39, 40, 41), PackedInt32Array(38, 41, 35, 34), PackedInt32Array(42, 37, 43, 44, 45), PackedInt32Array(44, 46, 47, 45), PackedInt32Array(47, 48, 49), PackedInt32Array(50, 51, 8, 7), PackedInt32Array(8, 52, 53), PackedInt32Array(53, 54, 55, 5), PackedInt32Array(8, 53, 5), PackedInt32Array(50, 7, 56, 49), PackedInt32Array(45, 47, 49, 56, 57), PackedInt32Array(32, 37, 42, 58), PackedInt32Array(58, 42, 0, 59), PackedInt32Array(4, 59, 0), PackedInt32Array(4, 3, 20, 29), PackedInt32Array(20, 18, 30, 29), PackedInt32Array(25, 30, 26), PackedInt32Array(23, 26, 15)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(32, 64, -40, 64, -40, 24, -8, 24, 0, -8, 328, -8, 320, 128, 352, 128, 352, 160, 416, 160, 416, 128, 448, 128, 448, -96, 64, -96, 64, -64, 0, -64, 0, -96, -128, -96, -128, 192, -96, 192, -96, 224, -64, 224, -64, 256, 0, 256, 448, 256, 448, 192, 192, 192, 192, 224, 88, 232, 88, 200, -8, 200, -8, 96, 32, 96, 64, 96, 64, 128, 32, 128, 32, 152, 32, 160, 48, 160, 256, 160, 256, 128, 288, 128, 288, 112, 224, 112, 224, 128, 192, 128, 192, 96, 224, 96, 224, 112, 256, 112, 256, 80, 288, 80, 288, 32, 224, 32, 224, 56, 216, 64, 160, 64, 136, 72, 120, 56, 136, 32, 32, 32)])
+
 [node name="World" type="Node2D"]
 texture_filter = 1
 
@@ -454,14 +459,17 @@ y_sort_enabled = true
 [node name="Player" parent="Entities" instance=ExtResource("2_odwu6")]
 position = Vector2(56, 40)
 
-[node name="Bat" parent="Entities" instance=ExtResource("5_ayly1")]
+[node name="Bat" parent="Entities" node_paths=PackedStringArray("_player") instance=ExtResource("5_ayly1")]
 position = Vector2(72, 136)
+_player = NodePath("../Player")
 
-[node name="Bat2" parent="Entities" instance=ExtResource("5_ayly1")]
+[node name="Bat2" parent="Entities" node_paths=PackedStringArray("_player") instance=ExtResource("5_ayly1")]
 position = Vector2(152, 112)
+_player = NodePath("../Player")
 
-[node name="Bat3" parent="Entities" instance=ExtResource("5_ayly1")]
+[node name="Bat3" parent="Entities" node_paths=PackedStringArray("_player") instance=ExtResource("5_ayly1")]
 position = Vector2(112, 88)
+_player = NodePath("../Player")
 
 [node name="Grass" type="Node2D" parent="Entities"]
 
@@ -515,3 +523,6 @@ position = Vector2(208, 48)
 
 [node name="Bush7" parent="Entities/Bushes" instance=ExtResource("2_n7ve1")]
 position = Vector2(272, 144)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_54h81")

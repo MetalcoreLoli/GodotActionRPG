@@ -6,6 +6,9 @@ namespace ActionRPG.Scripts.Ai;
 public record struct SelectorNode(string Name) : IAiActionNode
 {
     private int _currentChild = 0;
+
+    public SelectorNode(): this ("SelectorNode") {}
+
     public List<IAiActionNode> Children => new();
 
     public IAiActionNode Add(IAiActionNode node)

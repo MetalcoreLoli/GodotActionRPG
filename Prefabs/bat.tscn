@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cqmr431v41cj4"]
+[gd_scene load_steps=19 format=3 uid="uid://bfmwqtbyhatim"]
 
 [ext_resource type="Script" path="res://Scripts/Bat.cs" id="1_lwqv0"]
 [ext_resource type="Texture2D" uid="uid://bdrvsgxpggf5p" path="res://Enemies/Bat.png" id="1_ox4lg"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="8_4sabs"]
 [ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="8_osjth"]
 [ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="8_sf3uh"]
-[ext_resource type="Script" path="res://Scripts/NavAgent2d.cs" id="10_g8y3n"]
+[ext_resource type="Script" path="res://Scripts/PathfindingComponent.cs" id="10_6omqe"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sv80"]
 atlas = ExtResource("1_ox4lg")
@@ -61,14 +61,14 @@ radius = 4.0
 radius = 6.0
 height = 18.0
 
-[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_navAgent", "_deathEffectSpawner", "_movementCompoment", "_healthComponent")]
+[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_deathEffectSpawner", "_healthComponent", "_movementCompoment", "_pathfindingComponent")]
 collision_layer = 32
 script = ExtResource("1_lwqv0")
 _hurtbox = NodePath("Hurtbox")
-_navAgent = NodePath("NavigationAgent2D")
 _deathEffectSpawner = NodePath("death_effect_spawner")
-_movementCompoment = NodePath("MovementComponent")
 _healthComponent = NodePath("HealthComponent")
+_movementCompoment = NodePath("MovementComponent")
+_pathfindingComponent = NodePath("PathFindingComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -101,10 +101,9 @@ shape = SubResource("CapsuleShape2D_dud8e")
 [node name="HealthComponent" parent="." instance=ExtResource("8_osjth")]
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("_movableCharacter") instance=ExtResource("8_sf3uh")]
-_speed = 500.0
 _movableCharacter = NodePath("..")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-script = ExtResource("10_g8y3n")
+[node name="PathFindingComponent" type="NavigationAgent2D" parent="."]
+script = ExtResource("10_6omqe")
 
 [editable path="Hurtbox"]

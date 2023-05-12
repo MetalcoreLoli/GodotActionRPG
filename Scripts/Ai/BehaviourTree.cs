@@ -7,6 +7,7 @@ public class BehaviourTree : IAiActionNode
 {
     public string Name { get; init; } = "root";
 
+    public bool IsEmpty => Children.Count == 0;
     public List<IAiActionNode> Children { get; }
     public BehaviourTree()
     {

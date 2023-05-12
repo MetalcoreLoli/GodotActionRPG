@@ -11,36 +11,49 @@ public partial class Bat : CharacterBody2D
     [Export] private float _friction = 200;
     [Export] private float _knockbackConst = 135;
 
-    [Export] private NavigationAgent2D _navAgent = null!;
     [Export] private Player _player = null!; // TODO: remove later 
     [Export] private Vector2 _movementTargetPosition = Vector2.Zero;
 
     [Export, ExportGroup("Effects")]
     private EffectSpawner _deathEffectSpawner = null!;
 
-    [Export, ExportGroup("Components")]
-    private MovementComponent _movementCompoment = null!;
-
-    [Export, ExportGroup("Components")]
-    private HealthComponent _healthComponent = null!;
+    [ExportGroup("Components")]
+    [Export] private HealthComponent _healthComponent = null!;
+    [Export] private MovementComponent _movementCompoment = null!;
+    [Export] private PathfindingComponent _pathfindingComponent = null!;
 
     private double _delta;
     private Vector2 _knockback = Vector2.Zero;
 
     private BehaviourTree _behaviourTree = new();
 
-    private async void ActorSetup()
+    private IAiActionNode Behaviour()
     {
-        // Wait for the first physics frame so the NavigationServer can sync.
-        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-        // Now that the navigation map is no longer empty, set the movement target./
-        MovementTarget = _movementTargetPosition;
-    }
+        // this is so unstable 
+        // and i don't know why... sometimes it's work, sometimes not
+        var seq = new SequenceNode("Left to right");
+        _ = seq
+            .Add(new Leaf("Chase player", () =>
+                    {
+                        _pathfindingComponent.MovementTarget = _player.GlobalTransform.Origin;
 
-    private Vector2 MovementTarget
-    {
-        get => _navAgent.TargetPosition;
-        set => _navAgent.TargetPosition = value;
+                        var currentAgentPosition = GlobalTransform.Origin;
+                        Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
+                        var direction = (nextPathPosition - currentAgentPosition).Normalized();
+
+                        _movementCompoment.Move(_delta, direction);
+                        if ((this.GlobalTransform.Origin - _player.GlobalTransform.Origin).Length() <= 5.0f)
+                        {
+                            return AiActionStatus.Success;
+                        }
+                        return AiActionStatus.Running;
+                    }))
+            .Add(new Leaf("Attack player", () =>
+                        {
+                            GD.Print("Bat attacking player");
+                            return AiActionStatus.Success;
+                        }));
+        return seq;
     }
 
 #endregion
@@ -54,34 +67,8 @@ public partial class Bat : CharacterBody2D
             QueueFree();
         };
 
-        // this is so unstable 
-        // and i don't know why... sometimes it's work, sometimes not
-        var seq = new SequenceNode("Left to right");
-        _ = seq
-            .Add(new Leaf("Chase player", () =>
-                    {
-                        MovementTarget = _player.GlobalTransform.Origin;
+        _ = _behaviourTree.Add(Behaviour());
 
-                        var currentAgentPosition = GlobalTransform.Origin;
-                        Vector2 nextPathPosition = _navAgent.GetNextPathPosition();
-                        var direction = (nextPathPosition - currentAgentPosition).Normalized();
-
-                        _movementCompoment.Move(_delta, direction);
-                        if ((this.GlobalTransform.Origin - _player.GlobalTransform.Origin).Length() <= 1.0f)
-                        {
-                            return AiActionStatus.Success;
-                        }
-                        return AiActionStatus.Running;
-                    }));
-
-        _ = _behaviourTree.Add(seq);
-
-        // These values need to be adjusted for the actor's speed
-        // and the navigation layout.
-        _navAgent.PathDesiredDistance = 4.0f;
-        _navAgent.TargetDesiredDistance = 4.0f;
-        // Make sure to not await during _Ready.
-        Callable.From(ActorSetup).CallDeferred();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -90,7 +77,8 @@ public partial class Bat : CharacterBody2D
         _knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
         Velocity = _knockback;
 
-        _ = _behaviourTree.Execute();
+        if (!_behaviourTree.IsEmpty)
+            _ = _behaviourTree.Execute();
     }
 
 	public void _OnHurtbox_AreaEntered(Node area)

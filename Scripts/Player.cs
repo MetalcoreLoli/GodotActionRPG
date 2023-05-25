@@ -114,6 +114,15 @@ public partial class Player : CharacterBody2D
 		_currentAnimationState?.Travel("Run");
 	}
 
+    public void _On_HurtBox_AreaEntered(Area2D area)
+    {
+		if (area is Weapon weapon)
+		{
+			//_knockback = weapon.KnockbackVector * _knockbackConst;
+			_healthComponent.TakeDamage(weapon.Damage, area, this);
+		}
+    }
+
 	public void _OnMovementComponent_PlayerStop()
 	{
 		_currentAnimationState?.Travel("Idle");

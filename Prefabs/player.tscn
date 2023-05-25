@@ -1,7 +1,8 @@
-[gd_scene load_steps=57 format=3 uid="uid://d1gh5r25p7v5m"]
+[gd_scene load_steps=59 format=3 uid="uid://d1gh5r25p7v5m"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_fhnjt"]
 [ext_resource type="Texture2D" uid="uid://c1jwr1scderkh" path="res://Player/Player.png" id="2_si0gq"]
+[ext_resource type="PackedScene" uid="uid://d27yd7pfrb5op" path="res://Prefabs/hurtbox.tscn" id="3_2apxp"]
 [ext_resource type="PackedScene" uid="uid://cjq7wvgvb1ogh" path="res://Prefabs/hitbox.tscn" id="3_48l26"]
 [ext_resource type="Script" path="res://Scripts/Weapon.cs" id="4_n3wa2"]
 [ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="5_4vofd"]
@@ -670,9 +671,13 @@ states/Run/node = SubResource("AnimationNodeBlendSpace2D_50tp8")
 states/Run/position = Vector2(432, 116)
 states/Start/position = Vector2(137, 110)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ij141"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_asgdx"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_rrcd8"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_853we"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_85t3o"), "Idle", "Roll", SubResource("AnimationNodeStateMachineTransition_yt0gy"), "Roll", "Idle", SubResource("AnimationNodeStateMachineTransition_7h1hl")]
-graph_offset = Vector2(-323, -95)
+graph_offset = Vector2(-328, 54)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_8fbrm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qaphq"]
+radius = 7.0
+height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fylyf"]
 
@@ -718,6 +723,12 @@ parameters/Idle/blend_position = Vector2(0, 0)
 parameters/Roll/blend_position = Vector2(0, 0)
 parameters/Run/blend_position = Vector2(0, 0)
 
+[node name="Hurtbox" parent="." instance=ExtResource("3_2apxp")]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -7)
+shape = SubResource("CapsuleShape2D_qaphq")
+
 [node name="HitBoxPivot" type="Marker2D" parent="."]
 position = Vector2(0, -4)
 
@@ -739,6 +750,7 @@ _movableCharacter = NodePath("..")
 
 [node name="HealthComponent" parent="." instance=ExtResource("7_tces4")]
 
+[connection signal="area_entered" from="Hurtbox" to="." method="_On_HurtBox_AreaEntered"]
 [connection signal="area_entered" from="HitBoxPivot/SwordHitBox" to="." method="_OnArea2D_AreaEntered"]
 [connection signal="OnMove" from="MovementComponent" to="." method="_OnMovementComponent_PlayerMove"]
 [connection signal="OnStop" from="MovementComponent" to="." method="_OnMovementComponent_PlayerStop"]

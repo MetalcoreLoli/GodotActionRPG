@@ -7,12 +7,19 @@ using ActionRPG.Scripts.Ai;
 public partial class Bat : CharacterBody2D
 {
 #region Private Members
+    [Export] private const float _attackDistance = 15.0f;
     [Export] private Area2D _hurtbox = null!;
     [Export] private float _friction = 200;
     [Export] private float _knockbackConst = 135;
 
     [Export] private Player _player = null!; // TODO: remove later 
     [Export] private Vector2 _movementTargetPosition = Vector2.Zero;
+
+    [Export] private Weapon _weapon = null!;
+
+    [ExportGroup("Animations")]
+    [Export] private AnimationPlayer _animationPlayer = null!;
+    [Export] private AnimationTree _animationTree = null!;
 
     [Export, ExportGroup("Effects")]
     private EffectSpawner _deathEffectSpawner = null!;
@@ -24,6 +31,8 @@ public partial class Bat : CharacterBody2D
 
     private double _delta;
     private Vector2 _knockback = Vector2.Zero;
+
+    private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
     private BehaviourTree _behaviourTree = new();
 
@@ -42,7 +51,7 @@ public partial class Bat : CharacterBody2D
                         var direction = (nextPathPosition - currentAgentPosition).Normalized();
 
                         _movementCompoment.Move(_delta, direction);
-                        if ((this.GlobalTransform.Origin - _player.GlobalTransform.Origin).Length() <= 5.0f)
+                        if ((this.GlobalTransform.Origin - _player.GlobalTransform.Origin).Length() <= _attackDistance)
                         {
                             return AiActionStatus.Success;
                         }
@@ -51,6 +60,7 @@ public partial class Bat : CharacterBody2D
             .Add(new Leaf("Attack player", () =>
                         {
                             GD.Print("Bat attacking player");
+                            _currentAnimationState?.Travel("Attack");
                             return AiActionStatus.Success;
                         }));
         return seq;
@@ -60,6 +70,8 @@ public partial class Bat : CharacterBody2D
 #region Godot
     public override void _Ready()
     {
+        _currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
+
         _hurtbox.AreaEntered += _OnHurtbox_AreaEntered;
         _healthComponent.OnDeath += (Node killer) =>
         {
@@ -67,6 +79,13 @@ public partial class Bat : CharacterBody2D
             QueueFree();
         };
 
+        _movementCompoment.OnMove += (direction) =>
+        {
+            _animationTree?.Set("parameters/Attack/blend_position", direction);
+            _animationTree?.Set("parameters/Idle/blend_position", direction);
+            _animationTree?.Set("parameters/Fly/blend_position", direction);
+            _currentAnimationState?.Travel("Fly");
+        };
         _ = _behaviourTree.Add(Behaviour());
 
     }

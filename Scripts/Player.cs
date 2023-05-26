@@ -72,10 +72,16 @@ public partial class Player : CharacterBody2D
 #region Godot Stuff
 	public override void _Ready()
 	{
-		_animationTree.Active = true;
-		_currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
-		//_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-	}
+        _healthComponent.OnDeath += (Node killer) =>
+        {
+            GD.Print("Player died");
+            //	_deathEffectSpawner?.Spawn();
+            //	QueueFree();
+        };
+        _animationTree.Active = true;
+        _currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
+        //_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{

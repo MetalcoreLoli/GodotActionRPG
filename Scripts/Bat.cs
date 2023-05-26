@@ -49,7 +49,6 @@ public partial class Bat : CharacterBody2D
                         if (dist <= _weapon.AttackDistance * _weapon.AttackDistance)
                         {
                             GD.Print("player was caught");
-                            GD.Print(dist);
                             return AiActionStatus.Success;
                         }
 
@@ -67,7 +66,7 @@ public partial class Bat : CharacterBody2D
                             var dist = (this.GlobalTransform.Origin - _player.GlobalTransform.Origin).LengthSquared();
                             if (dist <= _weapon.AttackDistance * _weapon.AttackDistance)
                             {
-                                GD.Print(dist);
+                                GD.Print("attacking player");
                                 _currentAnimationState?.Travel("Attack");
                                 return AiActionStatus.Success;
                             }

@@ -414,7 +414,6 @@ height = 22.0
 [node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_weapon", "_animationPlayer", "_animationTree", "_deathEffectSpawner", "_healthComponent", "_movementCompoment", "_pathfindingComponent")]
 collision_layer = 32
 script = ExtResource("1_lwqv0")
-_attackDistance = 12.0
 _hurtbox = NodePath("Hurtbox")
 _weapon = NodePath("HitBoxPivot/Claw")
 _animationPlayer = NodePath("AnimationPlayer")

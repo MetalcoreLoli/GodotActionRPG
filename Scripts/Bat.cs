@@ -7,43 +7,52 @@ using ActionRPG.Scripts.Ai;
 public partial class Bat : CharacterBody2D
 {
 #region Private Members
-    [Export] private const float _attackDistance = 15.0f;
-    [Export] private Area2D _hurtbox = null!;
-    [Export] private float _friction = 200;
-    [Export] private float _knockbackConst = 135;
+	[Export] private Area2D _hurtbox = null!;
+	[Export] private float _friction = 200;
+	[Export] private float _knockbackConst = 135;
 
-    [Export] private Player _player = null!; // TODO: remove later 
-    [Export] private Vector2 _movementTargetPosition = Vector2.Zero;
+	[Export] private Player _player = null!; // TODO: remove later 
+	[Export] private Vector2 _movementTargetPosition = Vector2.Zero;
 
-    [Export] private Weapon _weapon = null!;
+	[Export] private Weapon _weapon = null!;
 
-    [ExportGroup("Animations")]
-    [Export] private AnimationPlayer _animationPlayer = null!;
-    [Export] private AnimationTree _animationTree = null!;
+	[ExportGroup("Animations")]
+	[Export] private AnimationPlayer _animationPlayer = null!;
+	[Export] private AnimationTree _animationTree = null!;
 
-    [Export, ExportGroup("Effects")]
-    private EffectSpawner _deathEffectSpawner = null!;
+	[Export, ExportGroup("Effects")]
+	private EffectSpawner _deathEffectSpawner = null!;
 
-    [ExportGroup("Components")]
-    [Export] private HealthComponent _healthComponent = null!;
-    [Export] private MovementComponent _movementCompoment = null!;
-    [Export] private PathfindingComponent _pathfindingComponent = null!;
+	[ExportGroup("Components")]
+	[Export] private HealthComponent _healthComponent = null!;
+	[Export] private MovementComponent _movementCompoment = null!;
+	[Export] private PathfindingComponent _pathfindingComponent = null!;
 
-    private double _delta;
-    private Vector2 _knockback = Vector2.Zero;
+	private double _delta;
+	private Vector2 _knockback = Vector2.Zero;
 
-    private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
+	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
-    private BehaviourTree _behaviourTree = new();
+	private BehaviourTree _behaviourTree = new();
 
-    private IAiActionNode Behaviour()
-    {
+	private IAiActionNode Behaviour()
+	{
+        var selector = new SelectorNode("Chase player");
         // this is so unstable 
         // and i don't know why... sometimes it's work, sometimes not
         var seq = new SequenceNode("Left to right");
-        _ = seq
-            .Add(new Leaf("Chase player", () =>
+
+        var chasePlayer = new Leaf("Chase player", () =>
                     {
+                        GD.Print("chasing player");
+                        var dist = (this.GlobalTransform.Origin - _player.GlobalTransform.Origin).LengthSquared();
+                        if (dist <= _weapon.AttackDistance * _weapon.AttackDistance)
+                        {
+                            GD.Print("player was caught");
+                            GD.Print(dist);
+                            return AiActionStatus.Success;
+                        }
+
                         _pathfindingComponent.MovementTarget = _player.GlobalTransform.Origin;
 
                         var currentAgentPosition = GlobalTransform.Origin;
@@ -51,54 +60,58 @@ public partial class Bat : CharacterBody2D
                         var direction = (nextPathPosition - currentAgentPosition).Normalized();
 
                         _movementCompoment.Move(_delta, direction);
-                        if ((this.GlobalTransform.Origin - _player.GlobalTransform.Origin).Length() <= _attackDistance)
-                        {
-                            return AiActionStatus.Success;
-                        }
                         return AiActionStatus.Running;
-                    }))
-            .Add(new Leaf("Attack player", () =>
+                    });
+        Leaf attackPlayer = new Leaf("Attack player", () =>
                         {
-                            GD.Print("Bat attacking player");
-                            _currentAnimationState?.Travel("Attack");
-                            return AiActionStatus.Success;
-                        }));
-        return seq;
+                            var dist = (this.GlobalTransform.Origin - _player.GlobalTransform.Origin).LengthSquared();
+                            if (dist <= _weapon.AttackDistance * _weapon.AttackDistance)
+                            {
+                                GD.Print(dist);
+                                _currentAnimationState?.Travel("Attack");
+                                return AiActionStatus.Success;
+                            }
+                            GD.Print("attack failed");
+                            return AiActionStatus.Failure;
+                        });
+        _ = selector.Add(attackPlayer).Add(chasePlayer);
+        return seq.Add(chasePlayer).Add(selector);
+        //return seq.Add(chasePlayer).Add(attackPlayer);
     }
 
 #endregion
 #region Godot
-    public override void _Ready()
-    {
-        _currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
+	public override void _Ready()
+	{
+		_currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
 
-        _hurtbox.AreaEntered += _OnHurtbox_AreaEntered;
-        _healthComponent.OnDeath += (Node killer) =>
-        {
-            _deathEffectSpawner?.Spawn();
-            QueueFree();
-        };
+		_hurtbox.AreaEntered += _OnHurtbox_AreaEntered;
+		_healthComponent.OnDeath += (Node killer) =>
+		{
+			_deathEffectSpawner?.Spawn();
+			QueueFree();
+		};
 
-        _movementCompoment.OnMove += (direction) =>
-        {
-            _animationTree?.Set("parameters/Attack/blend_position", direction);
-            _animationTree?.Set("parameters/Idle/blend_position", direction);
-            _animationTree?.Set("parameters/Fly/blend_position", direction);
-            _currentAnimationState?.Travel("Fly");
-        };
-        _ = _behaviourTree.Add(Behaviour());
+		_movementCompoment.OnMove += (direction) =>
+		{
+			_animationTree?.Set("parameters/Attack/blend_position", direction);
+			_animationTree?.Set("parameters/Idle/blend_position", direction);
+			_animationTree?.Set("parameters/Fly/blend_position", direction);
+			_currentAnimationState?.Travel("Fly");
+		};
+		_ = _behaviourTree.Add(Behaviour());
 
-    }
+	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        _delta = delta;
-        _knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
-        Velocity = _knockback;
+	public override void _PhysicsProcess(double delta)
+	{
+		_delta = delta;
+		_knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
+		Velocity = _knockback;
 
-        if (!_behaviourTree.IsEmpty)
-            _ = _behaviourTree.Execute();
-    }
+		if (!_behaviourTree.IsEmpty)
+			_ = _behaviourTree.Execute();
+	}
 
 	public void _OnHurtbox_AreaEntered(Node area)
 	{

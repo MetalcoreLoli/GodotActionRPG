@@ -52,7 +52,6 @@ public partial class Player : CharacterBody2D
 
 	private void AttackState(double delta)
 	{
-
 		Velocity = Vector2.Zero;
 		_currentAnimationState?.Travel("Attack");
 	}
@@ -114,14 +113,15 @@ public partial class Player : CharacterBody2D
 		_currentAnimationState?.Travel("Run");
 	}
 
-    public void _On_HurtBox_AreaEntered(Area2D area)
-    {
+	public void _On_HurtBox_AreaEntered(Area2D area)
+	{
 		if (area is Weapon weapon)
 		{
 			//_knockback = weapon.KnockbackVector * _knockbackConst;
 			_healthComponent.TakeDamage(weapon.Damage, area, this);
+			GD.Print($"-{weapon.Damage}");
 		}
-    }
+	}
 
 	public void _OnMovementComponent_PlayerStop()
 	{

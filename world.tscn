@@ -460,15 +460,7 @@ y_sort_enabled = true
 position = Vector2(56, 40)
 
 [node name="Bat" parent="Entities" node_paths=PackedStringArray("_player") instance=ExtResource("5_ayly1")]
-position = Vector2(72, 136)
-_player = NodePath("../Player")
-
-[node name="Bat2" parent="Entities" node_paths=PackedStringArray("_player") instance=ExtResource("5_ayly1")]
-position = Vector2(152, 112)
-_player = NodePath("../Player")
-
-[node name="Bat3" parent="Entities" node_paths=PackedStringArray("_player") instance=ExtResource("5_ayly1")]
-position = Vector2(112, 88)
+position = Vector2(168, 144)
 _player = NodePath("../Player")
 
 [node name="Grass" type="Node2D" parent="Entities"]

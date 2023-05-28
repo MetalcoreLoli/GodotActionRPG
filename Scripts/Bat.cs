@@ -64,18 +64,18 @@ public partial class Bat : CharacterBody2D
         Leaf attackPlayer = new Leaf("Attack player", () =>
                         {
                             var dist = (this.GlobalTransform.Origin - _player.GlobalTransform.Origin).LengthSquared();
-                            if (dist <= _weapon.AttackDistance * _weapon.AttackDistance)
+                            if (dist > _weapon.AttackDistance * _weapon.AttackDistance)
                             {
-                                GD.Print("attacking player");
-                                _currentAnimationState?.Travel("Attack");
-                                return AiActionStatus.Success;
+                                GD.Print("attack failed");
+                                return AiActionStatus.Failure;
                             }
-                            GD.Print("attack failed");
-                            return AiActionStatus.Failure;
+                            GD.Print("attacking player");
+                            _currentAnimationState?.Travel("Attack");
+                            return AiActionStatus.Success;
                         });
         _ = selector.Add(attackPlayer).Add(chasePlayer);
-        return seq.Add(chasePlayer).Add(selector);
-        //return seq.Add(chasePlayer).Add(attackPlayer);
+        return selector;
+    //    return seq.Add(chasePlayer).Add(selector);
     }
 
 #endregion

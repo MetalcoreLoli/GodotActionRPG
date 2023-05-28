@@ -75,8 +75,8 @@ public partial class Player : CharacterBody2D
         _healthComponent.OnDeath += (Node killer) =>
         {
             GD.Print("Player died");
-            //	_deathEffectSpawner?.Spawn();
-            //	QueueFree();
+            //_deathEffectSpawner?.Spawn();
+            //QueueFree();
         };
         _animationTree.Active = true;
         _currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
@@ -134,6 +134,20 @@ public partial class Player : CharacterBody2D
 		_currentAnimationState?.Travel("Idle");
 	}
 
+    public void _OnTakeDamage(int damage, Node from, Node to)
+    {
+        if (from is null)
+        {
+            throw new ArgumentNullException(nameof(from));
+        }
+
+        if (to is null)
+        {
+            throw new ArgumentNullException(nameof(to));
+        }
+
+        GD.Print("-" + damage);
+	}
 	// this method will be called at the end of attack animation
 	public void RollAnimationFinished()
 	{

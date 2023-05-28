@@ -756,5 +756,6 @@ _movableCharacter = NodePath("..")
 [connection signal="area_entered" from="HitBoxPivot/SwordHitBox" to="." method="_OnArea2D_AreaEntered"]
 [connection signal="OnMove" from="MovementComponent" to="." method="_OnMovementComponent_PlayerMove"]
 [connection signal="OnStop" from="MovementComponent" to="." method="_OnMovementComponent_PlayerStop"]
+[connection signal="OnTakeDamage" from="HealthComponent" to="." method="_OnTakeDamage"]
 
 [editable path="HitBoxPivot/SwordHitBox"]

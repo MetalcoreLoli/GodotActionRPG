@@ -50,7 +50,6 @@ public partial class HealthComponent : Node
 	{
 		_ = EmitSignal(nameof(OnDeath), killer);
 		Health = 0;
-		QueueFree();
 	}
 #endregion
 }

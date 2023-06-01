@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using ActionRPG.Scripts.Ai;
+using System.Runtime.CompilerServices;
 
 public partial class Bat : CharacterBody2D
 {
@@ -35,8 +36,8 @@ public partial class Bat : CharacterBody2D
 
 	private BehaviourTree _behaviourTree = new();
 
-	private IAiActionNode Behaviour()
-	{
+    private IAiActionNode Behaviour()
+    {
         var selector = new SelectorNode("Chase player");
         // this is so unstable 
         // and i don't know why... sometimes it's work, sometimes not
@@ -45,8 +46,7 @@ public partial class Bat : CharacterBody2D
         var chasePlayer = new Leaf("Chase player", () =>
                     {
                         GD.Print("chasing player");
-                        var dist = (this.GlobalTransform.Origin - _player.GlobalTransform.Origin).LengthSquared();
-                        if (dist <= _weapon.AttackDistance * _weapon.AttackDistance)
+                        if (CanAttack(_player.GlobalTransform.Origin, this.GlobalTransform.Origin, _weapon.AttackDistance))
                         {
                             GD.Print("player was caught");
                             return AiActionStatus.Success;
@@ -63,8 +63,7 @@ public partial class Bat : CharacterBody2D
                     });
         Leaf attackPlayer = new Leaf("Attack player", () =>
                         {
-                            var dist = (this.GlobalTransform.Origin - _player.GlobalTransform.Origin).LengthSquared();
-                            if (dist > _weapon.AttackDistance * _weapon.AttackDistance)
+                            if (!CanAttack(_player.GlobalTransform.Origin, this.GlobalTransform.Origin, _weapon.AttackDistance))
                             {
                                 GD.Print("attack failed");
                                 return AiActionStatus.Failure;
@@ -78,9 +77,15 @@ public partial class Bat : CharacterBody2D
     //    return seq.Add(chasePlayer).Add(selector);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool CanAttack(Vector2 playersOrigin, Vector2 batsOrigin, float weaponAttackDistance)
+    {
+        return (batsOrigin - playersOrigin).LengthSquared() <= weaponAttackDistance * weaponAttackDistance;
+    }
+
 #endregion
 #region Godot
-	public override void _Ready()
+    public override void _Ready()
 	{
 		_currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
 

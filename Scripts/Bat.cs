@@ -32,9 +32,39 @@ public partial class Bat : CharacterBody2D
 	private double _delta;
 	private Vector2 _knockback = Vector2.Zero;
 
+    private State _currentState = State.Idle;
+
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
 	private BehaviourTree _behaviourTree = new();
+
+#region States
+    private enum State
+    {
+        Idle, Fly, Attack
+    }
+
+    private void IdleState()
+    {
+        _currentAnimationState?.Travel("Idle");
+    }
+
+    private void FlyState()
+    {
+        _pathfindingComponent.MovementTarget = _player.GlobalTransform.Origin;
+
+        var currentAgentPosition = GlobalTransform.Origin;
+        Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
+        var direction = (nextPathPosition - currentAgentPosition).Normalized();
+
+        _movementCompoment.Move(_delta, direction);
+    }
+
+    private void AttackState()
+    {
+        _currentAnimationState?.Travel("Attack");
+    }
+#endregion
 
     private IAiActionNode Behaviour()
     {
@@ -51,14 +81,7 @@ public partial class Bat : CharacterBody2D
                             GD.Print("player was caught");
                             return AiActionStatus.Success;
                         }
-
-                        _pathfindingComponent.MovementTarget = _player.GlobalTransform.Origin;
-
-                        var currentAgentPosition = GlobalTransform.Origin;
-                        Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
-                        var direction = (nextPathPosition - currentAgentPosition).Normalized();
-
-                        _movementCompoment.Move(_delta, direction);
+                        _currentState = State.Fly;
                         return AiActionStatus.Running;
                     });
         Leaf attackPlayer = new Leaf("Attack player", () =>
@@ -69,7 +92,7 @@ public partial class Bat : CharacterBody2D
                                 return AiActionStatus.Failure;
                             }
                             GD.Print("attacking player");
-                            _currentAnimationState?.Travel("Attack");
+                            _currentState = State.Attack;
                             return AiActionStatus.Success;
                         });
         _ = selector.Add(attackPlayer).Add(chasePlayer);
@@ -107,17 +130,30 @@ public partial class Bat : CharacterBody2D
 
 	}
 
-	public override void _PhysicsProcess(double delta)
-	{
-		_delta = delta;
-		_knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
-		Velocity = _knockback;
+    public override void _PhysicsProcess(double delta)
+    {
+        _delta = delta;
+        _knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
+        Velocity = _knockback;
 
-		if (!_behaviourTree.IsEmpty)
-			_ = _behaviourTree.Execute();
-	}
+        if (!_behaviourTree.IsEmpty)
+            _ = _behaviourTree.Execute();
 
-	public void _OnHurtbox_AreaEntered(Node area)
+        switch (_currentState)
+        {
+            case State.Idle:
+                IdleState();
+                break;
+            case State.Fly:
+                FlyState();
+                break;
+            case State.Attack:
+                AttackState();
+                break;
+        }
+    }
+
+    public void _OnHurtbox_AreaEntered(Node area)
 	{
 		if (area is Weapon weapon)
 		{
@@ -140,5 +176,10 @@ public partial class Bat : CharacterBody2D
 
 		GD.Print("-" + damage);
 	}
+
+    public void _OnAttackAnimationFinished()
+    {
+        _currentState = State.Idle;
+    }
 #endregion
 }

@@ -9,6 +9,7 @@ public class BehaviourTree : IAiActionNode
 
     public bool IsEmpty => Children.Count == 0;
     public List<IAiActionNode> Children { get; }
+    public AiActionStatus Status { get; private set; }
     public BehaviourTree()
     {
         Children = new ();
@@ -40,7 +41,8 @@ public class BehaviourTree : IAiActionNode
 
     public AiActionStatus Execute()
     {
-        return Children.FirstOrDefault().Execute();
+        Status = Children.FirstOrDefault().Execute();
+        return Status;
     }
 }
 

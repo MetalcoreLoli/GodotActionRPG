@@ -96,6 +96,20 @@ tracks/2/keys = {
 "update": 1,
 "values": [false, true]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_OnAttackAnimationFinished"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_rtwtr"]
 resource_name = "AttackLeft"
@@ -134,6 +148,20 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_OnAttackAnimationFinished"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_ggddh"]
@@ -425,7 +453,6 @@ _pathfindingComponent = NodePath("PathFindingComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_k5p6b")
 animation = &"Fly"
 autoplay = "Fly"

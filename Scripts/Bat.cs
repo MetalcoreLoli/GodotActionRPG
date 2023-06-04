@@ -91,7 +91,7 @@ public partial class Bat : CharacterBody2D
                                 GD.Print("attack failed");
                                 return AiActionStatus.Failure;
                             }
-                            GD.Print("attacking player");
+                            GD.Print(_currentState);
                             _currentState = State.Attack;
                             return AiActionStatus.Success;
                         });

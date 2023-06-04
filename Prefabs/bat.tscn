@@ -60,6 +60,7 @@ radius = 4.0
 
 [sub_resource type="Animation" id="Animation_lwevk"]
 resource_name = "AttackDown"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -113,6 +114,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_rtwtr"]
 resource_name = "AttackLeft"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -203,9 +205,24 @@ tracks/2/keys = {
 "update": 1,
 "values": [false, true]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_OnAttackAnimationFinished"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_d86t8"]
 resource_name = "AttackUp"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -242,9 +259,24 @@ tracks/2/keys = {
 "update": 1,
 "values": [false, true]
 }
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_OnAttackAnimationFinished"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_ern7s"]
 resource_name = "FlyLeft"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -272,6 +304,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_hj3ed"]
 resource_name = "FlyRight"
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -453,6 +486,7 @@ _pathfindingComponent = NodePath("PathFindingComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+scale = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_k5p6b")
 animation = &"Fly"
 autoplay = "Fly"
@@ -476,7 +510,7 @@ tree_root = SubResource("AnimationNodeStateMachine_5tgtv")
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_2leue")
-parameters/Attack/blend_position = Vector2(0, 0)
+parameters/Attack/blend_position = Vector2(-0.000848174, -0.0131004)
 parameters/Fly/blend_position = Vector2(0, 0)
 parameters/Idle/blend_position = Vector2(0, 0)
 

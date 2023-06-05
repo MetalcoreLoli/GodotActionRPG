@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d27yd7pfrb5op" path="res://Prefabs/hurtbox.tscn" id="3_hn435"]
 [ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="5_j12qd"]
 [ext_resource type="PackedScene" uid="uid://ch3fp0rybq5wh" path="res://Prefabs/effects/death_effect.tscn" id="6_gixw5"]
-[ext_resource type="PackedScene" uid="uid://ddh5xgu6j7alg" path="res://Prefabs/stats.tscn" id="8_4sabs"]
+[ext_resource type="PackedScene" path="res://Prefabs/stats.tscn" id="8_4sabs"]
 [ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="8_osjth"]
 [ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="8_sf3uh"]
 [ext_resource type="Script" path="res://Scripts/PathfindingComponent.cs" id="10_6omqe"]
@@ -544,6 +544,7 @@ collision_layer = 64
 collision_mask = 4
 script = ExtResource("12_feudm")
 AttackDistance = 12.0
+DamageDice = "1d4"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxPivot/Claw"]
 position = Vector2(11, 0)

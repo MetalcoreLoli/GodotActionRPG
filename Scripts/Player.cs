@@ -1,4 +1,5 @@
 using System;
+using ActionRPG.Scripts.Dices;
 using Godot;
 
 public partial class Player : CharacterBody2D
@@ -124,8 +125,9 @@ public partial class Player : CharacterBody2D
 		if (area is Weapon weapon)
 		{
 			//_knockback = weapon.KnockbackVector * _knockbackConst;
-			_healthComponent.TakeDamage(weapon.Damage, area, this);
-			GD.Print($"-{weapon.Damage}");
+            var damage = DiceRoller.Roll(weapon.DamageDice);
+			_healthComponent.TakeDamage((int)damage, area, this);
+			GD.Print($"-{damage}");
 		}
 	}
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using ActionRPG.Scripts.Ai;
 using System.Runtime.CompilerServices;
+using ActionRPG.Scripts.Dices;
 
 public partial class Bat : CharacterBody2D
 {
@@ -75,7 +76,6 @@ public partial class Bat : CharacterBody2D
 
         var chasePlayer = new Leaf("Chase player", () =>
                     {
-                        GD.Print("chasing player");
                         if (CanAttack(_player.GlobalTransform.Origin, this.GlobalTransform.Origin, _weapon.AttackDistance))
                         {
                             GD.Print("player was caught");
@@ -91,7 +91,6 @@ public partial class Bat : CharacterBody2D
                                 GD.Print("attack failed");
                                 return AiActionStatus.Failure;
                             }
-                            GD.Print(_currentState);
                             _currentState = State.Attack;
                             return AiActionStatus.Success;
                         });
@@ -154,13 +153,15 @@ public partial class Bat : CharacterBody2D
     }
 
     public void _OnHurtbox_AreaEntered(Node area)
-	{
-		if (area is Weapon weapon)
-		{
-			_knockback = weapon.KnockbackVector * _knockbackConst;
-			_healthComponent.TakeDamage(weapon.Damage, area, this);
-		}
-	}
+    {
+        if (area is Weapon weapon)
+        {
+            _knockback = weapon.KnockbackVector * _knockbackConst;
+            int damage = (int)DiceRoller.Roll(weapon.DamageDice);
+            _healthComponent.TakeDamage(damage, area, this);
+            GD.Print(damage);
+        }
+    }
 
 	public void _OnTakeDamage(int damage, Node from, Node to)
 	{

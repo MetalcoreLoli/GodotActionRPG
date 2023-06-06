@@ -8,6 +8,12 @@ namespace ActionRPG.Scripts.Dices;
 
 public static class DiceRoller
 {
+    public static long D20 => Roll(1, 20);
+    public static long D12 => Roll(1, 12);
+    public static long D8 => Roll(1, 8);
+    public static long D6 => Roll(1, 6);
+    public static long D4 => Roll(1, 4);
+
     public static long Roll(int count, int edges)
     {
         GD.Randomize();

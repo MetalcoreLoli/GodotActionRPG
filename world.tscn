@@ -460,7 +460,7 @@ y_sort_enabled = true
 position = Vector2(56, 40)
 
 [node name="Bat" parent="Entities" node_paths=PackedStringArray("_player") instance=ExtResource("5_ayly1")]
-position = Vector2(168, 144)
+position = Vector2(120, 48)
 _player = NodePath("../Player")
 
 [node name="Grass" type="Node2D" parent="Entities"]

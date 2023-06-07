@@ -32,7 +32,6 @@ public static class DiceRoller
         int mid = pattern.IndexOf('d');
         int count = int.Parse(pattern.Slice(0, mid));
         int edges = int.Parse(pattern.Slice(mid + 1, pattern.Length - mid - 1));
-        GD.Print($"{count}d{edges}");
         return Roll(count, edges);
     }
 }

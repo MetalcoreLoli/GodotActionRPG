@@ -120,16 +120,19 @@ public partial class Player : CharacterBody2D
 		_currentAnimationState?.Travel("Run");
 	}
 
-	public void _On_HurtBox_AreaEntered(Area2D area)
-	{
-		if (area is Weapon weapon)
-		{
-			//_knockback = weapon.KnockbackVector * _knockbackConst;
+    public void _On_HurtBox_AreaEntered(Area2D area)
+    {
+        if (area is Weapon weapon)
+        {
+            if (DiceRoller.D20 <= 10) // TODO: change 10 to proper kd in future
+            {
+                return;
+            }
+            //_knockback = weapon.KnockbackVector * _knockbackConst;
             var damage = DiceRoller.Roll(weapon.DamageDice);
-			_healthComponent.TakeDamage((int)damage, area, this);
-			GD.Print($"-{damage}");
-		}
-	}
+            _healthComponent.TakeDamage((int)damage, area, this);
+        }
+    }
 
 	public void _OnMovementComponent_PlayerStop()
 	{

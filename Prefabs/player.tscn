@@ -745,7 +745,13 @@ DamageDice = "1d6"
 shape = SubResource("CapsuleShape2D_fylyf")
 disabled = true
 
-[node name="Stats" parent="." instance=ExtResource("5_4vofd")]
+[node name="StatsComponent" parent="." instance=ExtResource("5_4vofd")]
+Intellect = 15
+Charism = 17
+Consitution = 12
+Dexterity = 8
+Wisdom = 13
+Strength = 15
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("_movableCharacter") instance=ExtResource("6_1brjl")]
 _movableCharacter = NodePath("..")

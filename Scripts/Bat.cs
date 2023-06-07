@@ -156,10 +156,13 @@ public partial class Bat : CharacterBody2D
     {
         if (area is Weapon weapon)
         {
+            if (DiceRoller.D20 <= 10) // TODO: change 10 for a proper kd in future
+            {
+                return;
+            }
             _knockback = weapon.KnockbackVector * _knockbackConst;
             int damage = (int)DiceRoller.Roll(weapon.DamageDice);
             _healthComponent.TakeDamage(damage, area, this);
-            GD.Print(damage);
         }
     }
 

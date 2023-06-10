@@ -11,6 +11,8 @@ public partial class StatsComponent : Node
     private int _wisdom;
     private int _strength;
 
+    private const int DEFAULT_KD_VALUE = 10;
+
     private int CalculateModificator(int value)
     {
         return value == 0 || value - 10 == 0? 0: (value - 10) / 2;
@@ -24,6 +26,8 @@ public partial class StatsComponent : Node
 #endregion
 
 #region Public members
+    [Export] public int Kd { get; set; } = DEFAULT_KD_VALUE;
+
     [ExportGroup("Stats")]
     [Export] public int Intellect
     {
@@ -59,6 +63,7 @@ public partial class StatsComponent : Node
         {
             Set(ref _dexterity, value);
             DexterityMod = CalculateModificator(_dexterity);
+            Kd = DEFAULT_KD_VALUE + DexterityMod;
         }
     }
     [Export] public int Wisdom

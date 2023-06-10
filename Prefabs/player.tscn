@@ -671,7 +671,7 @@ states/Run/node = SubResource("AnimationNodeBlendSpace2D_50tp8")
 states/Run/position = Vector2(432, 116)
 states/Start/position = Vector2(137, 110)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ij141"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_asgdx"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_rrcd8"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_853we"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_85t3o"), "Idle", "Roll", SubResource("AnimationNodeStateMachineTransition_yt0gy"), "Roll", "Idle", SubResource("AnimationNodeStateMachineTransition_7h1hl")]
-graph_offset = Vector2(-328, 54)
+graph_offset = Vector2(-336, -57)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_8fbrm"]
 
@@ -681,13 +681,14 @@ height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fylyf"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_healthComponent", "_movementComponent")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_statsComponent", "_healthComponent", "_movementComponent")]
 collision_layer = 2
 script = ExtResource("1_fhnjt")
-_rollSpeed = 150.0
+_rollSpeed = 800.0
 _weapon = NodePath("HitBoxPivot/SwordHitBox")
 _animationTree = NodePath("AnimationTree")
 _animationPlayer = NodePath("AnimationPlayer")
+_statsComponent = NodePath("StatsComponent")
 _healthComponent = NodePath("HealthComponent")
 _movementComponent = NodePath("MovementComponent")
 

@@ -26,6 +26,7 @@ public partial class Bat : CharacterBody2D
 	private EffectSpawner _deathEffectSpawner = null!;
 
 	[ExportGroup("Components")]
+    [Export] private StatsComponent _statsComponent = null!;
 	[Export] private HealthComponent _healthComponent = null!;
 	[Export] private MovementComponent _movementCompoment = null!;
 	[Export] private PathfindingComponent _pathfindingComponent = null!;

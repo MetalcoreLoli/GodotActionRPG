@@ -1,5 +1,6 @@
 using System;
 using ActionRPG.Scripts.Dices;
+using ActionRPG.Scripts.StatsModifier;
 using Godot;
 
 public partial class Player : CharacterBody2D
@@ -13,20 +14,19 @@ public partial class Player : CharacterBody2D
 	[Export(PropertyHint.Flags, "Idle,Attack,Move,Roll")]
 	private State _currentState = State.Idle;
 
-	//TODO: create weaponhitbox class 
-	[Export] private Weapon _weapon = null!;
+    //TODO: create weaponhitbox class 
+    [Export] private Weapon _weapon = null!;
 
 
-	[Export] private AnimationTree _animationTree = null!;
-	[Export] private AnimationPlayer _animationPlayer = null!;
+    [Export] private AnimationTree _animationTree = null!;
+    [Export] private AnimationPlayer _animationPlayer = null!;
 
-	[Export, ExportGroup("Components")]
-	private HealthComponent _healthComponent = null!;
+    [ExportGroup("Components")]
+    [Export] private StatsComponent _statsComponent = null!;
+    [Export] private HealthComponent _healthComponent = null!;
+    [Export] private MovementComponent _movementComponent = null!;
 
-	[Export, ExportGroup("Components")]
-	private MovementComponent _movementComponent = null!;
-
-	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
+    private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
 #region State Implementations
 	//TODO: move into a its own class
@@ -71,8 +71,8 @@ public partial class Player : CharacterBody2D
 #endregion
 
 #region Godot Stuff
-	public override void _Ready()
-	{
+    public override void _Ready()
+    {
         _healthComponent.OnDeath += (Node killer) =>
         {
             GD.Print("Player died");
@@ -122,15 +122,20 @@ public partial class Player : CharacterBody2D
 
     public void _On_HurtBox_AreaEntered(Area2D area)
     {
+        var kdFromArmor = 0;
         if (area is Weapon weapon)
         {
-            if (DiceRoller.D20 <= 10) // TODO: change 10 to proper kd in future
+            using (var kdMod = new KdModifier(_statsComponent, kdFromArmor))
             {
-                return;
+                kdMod.Handle();
+                if (DiceRoller.D20 <= _statsComponent.Kd)
+                {
+                    return;
+                }
+                //_knockback = weapon.KnockbackVector * _knockbackConst;
+                var damage = DiceRoller.Roll(weapon.DamageDice);
+                _healthComponent.TakeDamage((int)damage, area, this);
             }
-            //_knockback = weapon.KnockbackVector * _knockbackConst;
-            var damage = DiceRoller.Roll(weapon.DamageDice);
-            _healthComponent.TakeDamage((int)damage, area, this);
         }
     }
 

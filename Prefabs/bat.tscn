@@ -137,7 +137,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 1)]
+"values": [Vector2(-1, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -486,7 +486,6 @@ _pathfindingComponent = NodePath("PathFindingComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_k5p6b")
 animation = &"Fly"
 autoplay = "Fly"
@@ -510,7 +509,7 @@ tree_root = SubResource("AnimationNodeStateMachine_5tgtv")
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_2leue")
-parameters/Attack/blend_position = Vector2(-0.000848174, -0.0131004)
+parameters/Attack/blend_position = Vector2(-0.000848174, -0.00436676)
 parameters/Fly/blend_position = Vector2(0, 0)
 parameters/Idle/blend_position = Vector2(0, 0)
 

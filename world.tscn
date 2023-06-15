@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bdrrqepvul45r" path="res://Prefabs/world/bush.tscn" id="2_n7ve1"]
 [ext_resource type="PackedScene" uid="uid://cuph54sdc2bwi" path="res://Prefabs/units/player_main_unit.tscn" id="2_odwu6"]
 [ext_resource type="Texture2D" uid="uid://d2nbfdtorsdr4" path="res://World/CliffTileset.png" id="3_r7lyg"]
-[ext_resource type="PackedScene" path="res://Prefabs/units/bat.tscn" id="5_ayly1"]
+[ext_resource type="PackedScene" uid="uid://ci00udef1s61q" path="res://Prefabs/units/bat.tscn" id="5_ayly1"]
 [ext_resource type="PackedScene" path="res://Prefabs/world/grass.tscn" id="6_y3re8"]
 [ext_resource type="Script" path="res://Scripts/UnitSelector.cs" id="8_88poy"]
 [ext_resource type="Script" path="res://Scripts/UnitSelectorPainter.cs" id="9_huy44"]

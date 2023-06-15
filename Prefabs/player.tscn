@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://d1gh5r25p7v5m"]
+[gd_scene load_steps=62 format=3 uid="uid://cuph54sdc2bwi"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_fhnjt"]
 [ext_resource type="Texture2D" uid="uid://c1jwr1scderkh" path="res://Player/Player.png" id="2_si0gq"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="6_1brjl"]
 [ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="7_tces4"]
 [ext_resource type="Script" path="res://Scripts/EquipmentComponent.cs" id="9_x5k2s"]
+[ext_resource type="PackedScene" uid="uid://rc0em2s6nwfv" path="res://Prefabs/components/unit_commands_component.tscn" id="10_yyvjj"]
+[ext_resource type="Script" path="res://Scripts/Command/MoveCommand.cs" id="11_m6ham"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b35ho"]
 radius = 4.0
@@ -758,6 +760,13 @@ _movableCharacter = NodePath("..")
 
 [node name="EquipmentComponent" type="Node" parent="."]
 script = ExtResource("9_x5k2s")
+
+[node name="UnitCommandsComponent" parent="." node_paths=PackedStringArray("_move") instance=ExtResource("10_yyvjj")]
+_move = NodePath("MoveCommand")
+
+[node name="MoveCommand" type="Node" parent="UnitCommandsComponent" node_paths=PackedStringArray("_moveComponent")]
+script = ExtResource("11_m6ham")
+_moveComponent = NodePath("../../MovementComponent")
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_On_HurtBox_AreaEntered"]
 [connection signal="area_entered" from="HitBoxPivot/SwordHitBox" to="." method="_OnArea2D_AreaEntered"]

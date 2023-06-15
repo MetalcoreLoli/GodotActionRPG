@@ -16,6 +16,10 @@ public partial class UnitSelector : Node2D
     private RectangleShape2D _selectRentangle = new ();
 #endregion
 
+#region Events
+
+#endregion
+
 #region Godot stuff
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

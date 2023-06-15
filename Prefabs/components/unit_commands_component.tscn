@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://rc0em2s6nwfv"]
+
+[ext_resource type="Script" path="res://Scripts/Command/UnitCommandsComponent.cs" id="1_a0hhw"]
+
+[node name="UnitCommandsComponent" type="Node2D" node_paths=PackedStringArray("_move")]
+script = ExtResource("1_a0hhw")
+_move = NodePath("")

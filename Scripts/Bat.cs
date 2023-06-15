@@ -126,7 +126,7 @@ public partial class Bat : CharacterBody2D
 			_animationTree?.Set("parameters/Fly/blend_position", direction);
 			_currentAnimationState?.Travel("Fly");
 		};
-		_ = _behaviourTree.Add(Behaviour());
+		//_ = _behaviourTree.Add(Behaviour());
 
 	}
 
@@ -157,7 +157,7 @@ public partial class Bat : CharacterBody2D
     {
         if (area is Weapon weapon)
         {
-            if (DiceRoller.D20 <= 10) // TODO: change 10 for a proper kd in future
+            if (DiceRoller.D20 <= _statsComponent.Kd) // TODO: change 10 for a proper kd in future
             {
                 return;
             }

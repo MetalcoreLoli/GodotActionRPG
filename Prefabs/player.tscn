@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://d1gh5r25p7v5m"]
+[gd_scene load_steps=60 format=3 uid="uid://d1gh5r25p7v5m"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_fhnjt"]
 [ext_resource type="Texture2D" uid="uid://c1jwr1scderkh" path="res://Player/Player.png" id="2_si0gq"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://Prefabs/stats.tscn" id="5_4vofd"]
 [ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="6_1brjl"]
 [ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="7_tces4"]
+[ext_resource type="Script" path="res://Scripts/EquipmentComponent.cs" id="9_x5k2s"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b35ho"]
 radius = 4.0
@@ -681,8 +682,9 @@ height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fylyf"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_statsComponent", "_healthComponent", "_movementComponent")]
-collision_layer = 2
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_statsComponent", "_healthComponent", "_movementComponent", "_equipmentComponent")]
+collision_layer = 130
+collision_mask = 129
 script = ExtResource("1_fhnjt")
 _rollSpeed = 800.0
 _weapon = NodePath("HitBoxPivot/SwordHitBox")
@@ -691,12 +693,7 @@ _animationPlayer = NodePath("AnimationPlayer")
 _statsComponent = NodePath("StatsComponent")
 _healthComponent = NodePath("HealthComponent")
 _movementComponent = NodePath("MovementComponent")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-limit_left = -160
-limit_top = -128
-limit_right = 480
-limit_bottom = 282
+_equipmentComponent = NodePath("EquipmentComponent")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -750,7 +747,7 @@ disabled = true
 Intellect = 15
 Charism = 17
 Consitution = 12
-Dexterity = 8
+Dexterity = 12
 Wisdom = 13
 Strength = 15
 
@@ -758,6 +755,9 @@ Strength = 15
 _movableCharacter = NodePath("..")
 
 [node name="HealthComponent" parent="." instance=ExtResource("7_tces4")]
+
+[node name="EquipmentComponent" type="Node" parent="."]
+script = ExtResource("9_x5k2s")
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_On_HurtBox_AreaEntered"]
 [connection signal="area_entered" from="HitBoxPivot/SwordHitBox" to="." method="_OnArea2D_AreaEntered"]

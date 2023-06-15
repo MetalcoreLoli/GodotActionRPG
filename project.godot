@@ -17,9 +17,7 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=320
-window/size/viewport_height=130
-window/stretch/scale=4.0
+window/stretch/scale=2.0
 
 [dotnet]
 
@@ -101,3 +99,4 @@ Roll={
 2d_physics/layer_5="WeaponHitbox"
 2d_physics/layer_6="Enemy"
 2d_physics/layer_7="EnemyWeaponHitbox"
+2d_physics/layer_8="Unit"

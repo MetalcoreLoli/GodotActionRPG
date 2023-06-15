@@ -25,6 +25,7 @@ public partial class Player : CharacterBody2D
     [Export] private StatsComponent _statsComponent = null!;
     [Export] private HealthComponent _healthComponent = null!;
     [Export] private MovementComponent _movementComponent = null!;
+    [Export] private EquipmentComponent _equipmentComponent = null!;
 
     private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
@@ -125,17 +126,15 @@ public partial class Player : CharacterBody2D
         var kdFromArmor = 0;
         if (area is Weapon weapon)
         {
-            using (var kdMod = new KdModifier(_statsComponent, kdFromArmor))
+            using KdModifier kdMod = new(_statsComponent, kdFromArmor);
+            kdMod.Handle();
+            if (DiceRoller.D20 <= _statsComponent.Kd)
             {
-                kdMod.Handle();
-                if (DiceRoller.D20 <= _statsComponent.Kd)
-                {
-                    return;
-                }
-                //_knockback = weapon.KnockbackVector * _knockbackConst;
-                var damage = DiceRoller.Roll(weapon.DamageDice);
-                _healthComponent.TakeDamage((int)damage, area, this);
+                return;
             }
+            //_knockback = weapon.KnockbackVector * _knockbackConst;
+            var damage = DiceRoller.Roll(weapon.DamageDice);
+            _healthComponent.TakeDamage((int)damage, area, this);
         }
     }
 

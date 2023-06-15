@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvb0bl1btk3co"]
+[gd_scene load_steps=13 format=3 uid="uid://bvb0bl1btk3co"]
 
 [ext_resource type="Texture2D" uid="uid://33fbar6w6q0t" path="res://World/GrassBackground.png" id="1_wl7m5"]
 [ext_resource type="TileSet" uid="uid://d3h060c6v55ss" path="res://World/world.tres" id="2_ln1ur"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://d2nbfdtorsdr4" path="res://World/CliffTileset.png" id="3_r7lyg"]
 [ext_resource type="PackedScene" uid="uid://bfmwqtbyhatim" path="res://Prefabs/bat.tscn" id="5_ayly1"]
 [ext_resource type="PackedScene" uid="uid://chyd6lwn4m60s" path="res://Prefabs/grass.tscn" id="6_y3re8"]
+[ext_resource type="Script" path="res://Scripts/UnitSelector.cs" id="8_88poy"]
+[ext_resource type="Script" path="res://Scripts/UnitSelectorPainter.cs" id="9_huy44"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_12rdp"]
 texture = ExtResource("3_r7lyg")
@@ -497,24 +499,38 @@ y_sort_enabled = true
 
 [node name="Bush" parent="Entities/Bushes" instance=ExtResource("2_n7ve1")]
 position = Vector2(272, 104)
+collision_priority = 2.0
 
 [node name="Bush2" parent="Entities/Bushes" instance=ExtResource("2_n7ve1")]
 position = Vector2(176, 48)
+collision_priority = 2.0
 
 [node name="Bush3" parent="Entities/Bushes" instance=ExtResource("2_n7ve1")]
 position = Vector2(48, 112)
+collision_priority = 2.0
 
 [node name="Bush4" parent="Entities/Bushes" instance=ExtResource("2_n7ve1")]
 position = Vector2(144, 56)
+collision_priority = 2.0
 
 [node name="Bush5" parent="Entities/Bushes" instance=ExtResource("2_n7ve1")]
 position = Vector2(208, 112)
+collision_priority = 2.0
 
 [node name="Bush6" parent="Entities/Bushes" instance=ExtResource("2_n7ve1")]
 position = Vector2(208, 48)
+collision_priority = 2.0
 
 [node name="Bush7" parent="Entities/Bushes" instance=ExtResource("2_n7ve1")]
 position = Vector2(272, 144)
+collision_priority = 2.0
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_54h81")
+
+[node name="UnitSelector" type="Node2D" parent="." node_paths=PackedStringArray("_painter")]
+script = ExtResource("8_88poy")
+_painter = NodePath("../UnitSelectorPainter")
+
+[node name="UnitSelectorPainter" type="Node2D" parent="."]
+script = ExtResource("9_huy44")

@@ -472,7 +472,7 @@ height = 18.0
 radius = 5.0
 height = 22.0
 
-[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_weapon", "_animationPlayer", "_animationTree", "_deathEffectSpawner", "_healthComponent", "_movementCompoment", "_pathfindingComponent")]
+[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_weapon", "_animationPlayer", "_animationTree", "_deathEffectSpawner", "_statsComponent", "_healthComponent", "_movementCompoment", "_pathfindingComponent")]
 collision_layer = 32
 script = ExtResource("1_lwqv0")
 _hurtbox = NodePath("Hurtbox")
@@ -480,12 +480,14 @@ _weapon = NodePath("HitBoxPivot/Claw")
 _animationPlayer = NodePath("AnimationPlayer")
 _animationTree = NodePath("AnimationTree")
 _deathEffectSpawner = NodePath("death_effect_spawner")
+_statsComponent = NodePath("StatsComponent")
 _healthComponent = NodePath("HealthComponent")
 _movementCompoment = NodePath("MovementComponent")
 _pathfindingComponent = NodePath("PathFindingComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+scale = Vector2(-1, 1)
 sprite_frames = SubResource("SpriteFrames_k5p6b")
 animation = &"Fly"
 autoplay = "Fly"
@@ -524,9 +526,17 @@ collision_mask = 16
 position = Vector2(0, -13)
 shape = SubResource("CapsuleShape2D_dud8e")
 
-[node name="Stats" parent="." instance=ExtResource("8_4sabs")]
+[node name="StatsComponent" parent="." instance=ExtResource("8_4sabs")]
+Intellect = 10
+Charism = 5
+Consitution = 10
+Dexterity = 14
+Wisdom = 11
+Strength = 12
 
 [node name="HealthComponent" parent="." instance=ExtResource("8_osjth")]
+MaxHealth = 5
+Health = 5
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("_movableCharacter") instance=ExtResource("8_sf3uh")]
 _movableCharacter = NodePath("..")

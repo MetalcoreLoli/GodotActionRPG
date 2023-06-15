@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://d27yd7pfrb5op"]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Hurtbox.cs" id="1_uhfsi"]
-[ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="1_wshqo"]
+[ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effects/effect_spawner.tscn" id="1_wshqo"]
 [ext_resource type="PackedScene" uid="uid://ce3iwhiev5ecv" path="res://Prefabs/effects/hit_effect.tscn" id="2_beqbp"]
 
 [node name="Hurtbox" type="Area2D" node_paths=PackedStringArray("_hitEffectSpawner")]

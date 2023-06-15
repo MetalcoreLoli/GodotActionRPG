@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://chyd6lwn4m60s"]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Texture2D" uid="uid://xa1vndbvkknn" path="res://World/Grass.png" id="1_drkhb"]
 [ext_resource type="Script" path="res://Scripts/Grass.cs" id="1_w0n0h"]
-[ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="3_7ygql"]
+[ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effects/effect_spawner.tscn" id="3_7ygql"]
 [ext_resource type="PackedScene" uid="uid://d26orfdrhbd02" path="res://Prefabs/effects/grass_effect.tscn" id="4_gw3fl"]
 [ext_resource type="PackedScene" uid="uid://d27yd7pfrb5op" path="res://Prefabs/hurtbox.tscn" id="4_k4fgr"]
 

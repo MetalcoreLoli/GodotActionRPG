@@ -684,7 +684,7 @@ height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fylyf"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_statsComponent", "_healthComponent", "_movementComponent", "_equipmentComponent")]
+[node name="PlayerMainUnit" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_statsComponent", "_healthComponent", "_movementComponent", "_equipmentComponent")]
 collision_layer = 130
 collision_mask = 129
 script = ExtResource("1_fhnjt")

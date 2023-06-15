@@ -1,10 +1,10 @@
-[gd_scene load_steps=51 format=3 uid="uid://bfmwqtbyhatim"]
+[gd_scene load_steps=51 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Bat.cs" id="1_lwqv0"]
 [ext_resource type="Texture2D" uid="uid://bdrvsgxpggf5p" path="res://Enemies/Bat.png" id="1_ox4lg"]
 [ext_resource type="Texture2D" uid="uid://jopfef6m7hcp" path="res://Shadows/SmallShadow.png" id="2_mjpsg"]
 [ext_resource type="PackedScene" uid="uid://d27yd7pfrb5op" path="res://Prefabs/hurtbox.tscn" id="3_hn435"]
-[ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effect_spawner.tscn" id="5_j12qd"]
+[ext_resource type="PackedScene" uid="uid://ddqp1684tfg84" path="res://Prefabs/effects/effect_spawner.tscn" id="5_j12qd"]
 [ext_resource type="PackedScene" uid="uid://ch3fp0rybq5wh" path="res://Prefabs/effects/death_effect.tscn" id="6_gixw5"]
 [ext_resource type="PackedScene" path="res://Prefabs/stats.tscn" id="8_4sabs"]
 [ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="8_osjth"]

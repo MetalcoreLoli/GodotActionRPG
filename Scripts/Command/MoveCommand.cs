@@ -13,24 +13,26 @@ public partial class MoveCommand : UnitCommand
 
 	private double _delta;
 	private bool _isMoving;
-	#endregion
+#endregion
 
-	#region Properties
+#region Properties
 	[Export] public Vector2 Destination { get; set; } = Vector2.Zero;
 #endregion
 
 #region Public members
 	public override void Execute()
 	{
+		if ((Destination - _agent.GlobalTransform.Origin).LengthSquared() <= 1)
+		{
+			CurrentState = State.Success;
+			return;
+		}
 		_pathfindingComponent.MovementTarget = Destination;
 		var currentAgentPosition = _agent.GlobalTransform.Origin;
 		Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
 		var direction = (nextPathPosition - currentAgentPosition).Normalized();
-		_isMoving = true;
-		if ((Destination - _agent.GlobalTransform.Origin).LengthSquared() <= 1)
-			_isMoving = false;
-		else 
-			_moveComponent.Move(_delta, direction);
+		_moveComponent.Move(_delta, direction);
+		CurrentState = State.Running;
 	}
 	#endregion
 
@@ -48,7 +50,7 @@ public partial class MoveCommand : UnitCommand
 	{
 		base._Process(delta);
 		_delta = delta;
-		if (_isMoving && Destination != _agent.GlobalTransform.Origin)
+		if (CurrentState == State.Running)
 			Execute();
 	}
 #endregion

@@ -12,8 +12,9 @@ public partial class MovementComponent : Node2D
 
 	[Export(PropertyHint.Range, "-1,1")]
 	private Vector2 _currentDirection = Vector2.Zero;
+    private float _delta;
 
-	private void Move()
+    private void Move()
 	{
 		_ = _movableCharacter.MoveAndSlide();
 	}
@@ -31,6 +32,25 @@ public partial class MovementComponent : Node2D
 #endregion
 
 #region Public Methods
+
+    public void MoveTo(Vector2 desination)
+    {
+        var velocity = _movableCharacter.Velocity;
+        var direction = desination;//.Normalized();
+        if (direction != Vector2.Zero)
+        {
+            _currentDirection = direction.Normalized();
+            EmitSignal(nameof(OnMove), _currentDirection);
+            velocity = velocity.MoveToward(direction * Speed, Acceleration * _delta);
+        }
+        else
+        {
+            EmitSignal(nameof(OnStop));
+            velocity = velocity.MoveToward(Vector2.Zero, Friction * _delta);
+        }
+        _movableCharacter.Velocity = velocity;
+        _ = _movableCharacter.MoveAndSlide();
+    }
 
 	public void Move(double delta, Vector2 direction)
 	{
@@ -57,5 +77,11 @@ public partial class MovementComponent : Node2D
 	public override void _Ready()
 	{
 	}
+
+
+    public override void _PhysicsProcess(double delta)
+    {
+        _delta = (float)delta;
+    }
 #endregion
 }

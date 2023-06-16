@@ -59,8 +59,9 @@ public partial class UnitSelector : Node2D
                 _selected = space.IntersectShape(query);
                 foreach (Dictionary unit in _selected)
                 {
-                    var coll = unit["collider"];
-                    GD.Print(coll);
+                    var coll = (CharacterBody2D)unit["collider"];
+                    if (coll is Player player)
+                        GD.Print(player);
                 }
 
             }

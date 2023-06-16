@@ -14,20 +14,22 @@ public partial class Player : CharacterBody2D
 	[Export(PropertyHint.Flags, "Idle,Attack,Move,Roll")]
 	private State _currentState = State.Idle;
 
-    //TODO: create weaponhitbox class 
-    [Export] private Weapon _weapon = null!;
+	//TODO: create weaponhitbox class 
+	[Export] private Weapon _weapon = null!;
 
 
-    [Export] private AnimationTree _animationTree = null!;
-    [Export] private AnimationPlayer _animationPlayer = null!;
+	[Export] private AnimationTree _animationTree = null!;
+	[Export] private AnimationPlayer _animationPlayer = null!;
 
-    [ExportGroup("Components")]
-    [Export] private StatsComponent _statsComponent = null!;
-    [Export] private HealthComponent _healthComponent = null!;
-    [Export] private MovementComponent _movementComponent = null!;
-    [Export] private EquipmentComponent _equipmentComponent = null!;
+	[ExportGroup("Components")]
+	[Export] private StatsComponent _statsComponent = null!;
+	[Export] private HealthComponent _healthComponent = null!;
+	[Export] private MovementComponent _movementComponent = null!;
+	[Export] private EquipmentComponent _equipmentComponent = null!;
+	[Export] private PathfindingComponent _pathfindingComponent = null!;
+	[Export] private UnitCommandsComponent _unitCommandsComponent = null!;
 
-    private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
+	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
 #region State Implementations
 	//TODO: move into a its own class
@@ -72,18 +74,29 @@ public partial class Player : CharacterBody2D
 #endregion
 
 #region Godot Stuff
-    public override void _Ready()
-    {
-        _healthComponent.OnDeath += (Node killer) =>
-        {
-            GD.Print("Player died");
-            //_deathEffectSpawner?.Spawn();
-            //QueueFree();
-        };
-        _animationTree.Active = true;
-        _currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
-        //_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-    }
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		// TODO: change later
+		if (@event is InputEventMouseButton buttonEvent && buttonEvent.ButtonIndex == MouseButton.Left)
+		{
+			_unitCommandsComponent.Execute();
+		}
+	}
+
+
+	public override void _Ready()
+	{
+		_healthComponent.OnDeath += (Node killer) =>
+		{
+			GD.Print("Player died");
+			//_deathEffectSpawner?.Spawn();
+			//QueueFree();
+		};
+		_animationTree.Active = true;
+		_currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
+		//_animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -121,41 +134,41 @@ public partial class Player : CharacterBody2D
 		_currentAnimationState?.Travel("Run");
 	}
 
-    public void _On_HurtBox_AreaEntered(Area2D area)
-    {
-        var kdFromArmor = 0;
-        if (area is Weapon weapon)
-        {
-            using KdModifier kdMod = new(_statsComponent, kdFromArmor);
-            kdMod.Handle();
-            if (DiceRoller.D20 <= _statsComponent.Kd)
-            {
-                return;
-            }
-            //_knockback = weapon.KnockbackVector * _knockbackConst;
-            var damage = DiceRoller.Roll(weapon.DamageDice);
-            _healthComponent.TakeDamage((int)damage, area, this);
-        }
-    }
+	public void _On_HurtBox_AreaEntered(Area2D area)
+	{
+		var kdFromArmor = 0;
+		if (area is Weapon weapon)
+		{
+			using KdModifier kdMod = new(_statsComponent, kdFromArmor);
+			kdMod.Handle();
+			if (DiceRoller.D20 <= _statsComponent.Kd)
+			{
+				return;
+			}
+			//_knockback = weapon.KnockbackVector * _knockbackConst;
+			var damage = DiceRoller.Roll(weapon.DamageDice);
+			_healthComponent.TakeDamage((int)damage, area, this);
+		}
+	}
 
 	public void _OnMovementComponent_PlayerStop()
 	{
 		_currentAnimationState?.Travel("Idle");
 	}
 
-    public void _OnTakeDamage(int damage, Node from, Node to)
-    {
-        if (from is null)
-        {
-            throw new ArgumentNullException(nameof(from));
-        }
+	public void _OnTakeDamage(int damage, Node from, Node to)
+	{
+		if (from is null)
+		{
+			throw new ArgumentNullException(nameof(from));
+		}
 
-        if (to is null)
-        {
-            throw new ArgumentNullException(nameof(to));
-        }
+		if (to is null)
+		{
+			throw new ArgumentNullException(nameof(to));
+		}
 
-        GD.Print("-" + damage);
+		GD.Print("-" + damage);
 	}
 	// this method will be called at the end of attack animation
 	public void RollAnimationFinished()

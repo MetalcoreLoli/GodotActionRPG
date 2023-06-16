@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" path="res://Prefabs/stats.tscn" id="8_4sabs"]
 [ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="8_osjth"]
 [ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="8_sf3uh"]
-[ext_resource type="Script" path="res://Scripts/PathfindingComponent.cs" id="10_6omqe"]
+[ext_resource type="PackedScene" uid="uid://d20y6o3on5udw" path="res://Prefabs/components/path_finding_component.tscn" id="10_5vwso"]
 [ext_resource type="Script" path="res://Scripts/Weapon.cs" id="12_feudm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sv80"]
@@ -541,8 +541,7 @@ Health = 5
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("_movableCharacter") instance=ExtResource("8_sf3uh")]
 _movableCharacter = NodePath("..")
 
-[node name="PathFindingComponent" type="NavigationAgent2D" parent="."]
-script = ExtResource("10_6omqe")
+[node name="PathFindingComponent" parent="." instance=ExtResource("10_5vwso")]
 
 [node name="HitBoxPivot" type="Marker2D" parent="."]
 position = Vector2(0, -7)

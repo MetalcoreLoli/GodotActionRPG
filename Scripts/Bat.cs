@@ -26,7 +26,7 @@ public partial class Bat : CharacterBody2D
 	private EffectSpawner _deathEffectSpawner = null!;
 
 	[ExportGroup("Components")]
-    [Export] private StatsComponent _statsComponent = null!;
+	[Export] private StatsComponent _statsComponent = null!;
 	[Export] private HealthComponent _healthComponent = null!;
 	[Export] private MovementComponent _movementCompoment = null!;
 	[Export] private PathfindingComponent _pathfindingComponent = null!;
@@ -34,81 +34,81 @@ public partial class Bat : CharacterBody2D
 	private double _delta;
 	private Vector2 _knockback = Vector2.Zero;
 
-    private State _currentState = State.Idle;
+	private State _currentState = State.Idle;
 
 	private AnimationNodeStateMachinePlayback _currentAnimationState = null!;
 
 	private BehaviourTree _behaviourTree = new();
 
 #region States
-    private enum State
-    {
-        Idle, Fly, Attack
-    }
+	private enum State
+	{
+		Idle, Fly, Attack
+	}
 
-    private void IdleState()
-    {
-        _currentAnimationState?.Travel("Idle");
-    }
+	private void IdleState()
+	{
+		_currentAnimationState?.Travel("Idle");
+	}
 
-    private void FlyState()
-    {
-        _pathfindingComponent.MovementTarget = _player.GlobalTransform.Origin;
+	private void FlyState()
+	{
+		_pathfindingComponent.MovementTarget = _player.GlobalTransform.Origin;
 
-        var currentAgentPosition = GlobalTransform.Origin;
-        Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
-        var direction = (nextPathPosition - currentAgentPosition).Normalized();
+		var currentAgentPosition = GlobalTransform.Origin;
+		Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
+		var direction = (nextPathPosition - currentAgentPosition).Normalized();
 
-        _movementCompoment.Move(_delta, direction);
-    }
+		_movementCompoment.Move(_delta, direction);
+	}
 
-    private void AttackState()
-    {
-        _currentAnimationState?.Travel("Attack");
-    }
+	private void AttackState()
+	{
+		_currentAnimationState?.Travel("Attack");
+	}
 #endregion
 
-    private IAiActionNode Behaviour()
-    {
-        var selector = new SelectorNode("Chase player");
-        // this is so unstable 
-        // and i don't know why... sometimes it's work, sometimes not
-        var seq = new SequenceNode("Left to right");
+	private IAiActionNode Behaviour()
+	{
+		var selector = new SelectorNode("Chase player");
+		// this is so unstable 
+		// and i don't know why... sometimes it's work, sometimes not
+		var seq = new SequenceNode("Left to right");
 
-        var chasePlayer = new Leaf("Chase player", () =>
-                    {
-                        if (CanAttack(_player.GlobalTransform.Origin, this.GlobalTransform.Origin, _weapon.AttackDistance))
-                        {
-                            GD.Print("player was caught");
-                            return AiActionStatus.Success;
-                        }
-                        _currentState = State.Fly;
-                        return AiActionStatus.Running;
-                    });
-        Leaf attackPlayer = new Leaf("Attack player", () =>
-                        {
-                            if (!CanAttack(_player.GlobalTransform.Origin, this.GlobalTransform.Origin, _weapon.AttackDistance))
-                            {
-                                GD.Print("attack failed");
-                                return AiActionStatus.Failure;
-                            }
-                            _currentState = State.Attack;
-                            return AiActionStatus.Success;
-                        });
-        _ = selector.Add(attackPlayer).Add(chasePlayer);
-        return selector;
-    //    return seq.Add(chasePlayer).Add(selector);
-    }
+		var chasePlayer = new Leaf("Chase player", () =>
+					{
+						if (CanAttack(_player.GlobalTransform.Origin, this.GlobalTransform.Origin, _weapon.AttackDistance))
+						{
+							GD.Print("player was caught");
+							return AiActionStatus.Success;
+						}
+						_currentState = State.Fly;
+						return AiActionStatus.Running;
+					});
+		Leaf attackPlayer = new Leaf("Attack player", () =>
+						{
+							if (!CanAttack(_player.GlobalTransform.Origin, this.GlobalTransform.Origin, _weapon.AttackDistance))
+							{
+								GD.Print("attack failed");
+								return AiActionStatus.Failure;
+							}
+							_currentState = State.Attack;
+							return AiActionStatus.Success;
+						});
+		_ = selector.Add(attackPlayer).Add(chasePlayer);
+		return selector;
+	//    return seq.Add(chasePlayer).Add(selector);
+	}
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool CanAttack(Vector2 playersOrigin, Vector2 batsOrigin, float weaponAttackDistance)
-    {
-        return (batsOrigin - playersOrigin).LengthSquared() <= weaponAttackDistance * weaponAttackDistance;
-    }
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	private static bool CanAttack(Vector2 playersOrigin, Vector2 batsOrigin, float weaponAttackDistance)
+	{
+		return (batsOrigin - playersOrigin).LengthSquared() <= weaponAttackDistance * weaponAttackDistance;
+	}
 
 #endregion
 #region Godot
-    public override void _Ready()
+	public override void _Ready()
 	{
 		_currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
 
@@ -130,42 +130,42 @@ public partial class Bat : CharacterBody2D
 
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        _delta = delta;
-        _knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
-        Velocity = _knockback;
+	public override void _PhysicsProcess(double delta)
+	{
+		_delta = delta;
+		_knockback = _knockback.MoveToward(Vector2.Zero, (float)(_friction * delta));
+		Velocity = _knockback;
 
-        if (!_behaviourTree.IsEmpty)
-            _ = _behaviourTree.Execute();
+		if (!_behaviourTree.IsEmpty)
+			_ = _behaviourTree.Execute();
 
-        switch (_currentState)
-        {
-            case State.Idle:
-                IdleState();
-                break;
-            case State.Fly:
-                FlyState();
-                break;
-            case State.Attack:
-                AttackState();
-                break;
-        }
-    }
+		switch (_currentState)
+		{
+			case State.Idle:
+				IdleState();
+				break;
+			case State.Fly:
+				FlyState();
+				break;
+			case State.Attack:
+				AttackState();
+				break;
+		}
+	}
 
-    public void _OnHurtbox_AreaEntered(Node area)
-    {
-        if (area is Weapon weapon)
-        {
-            if (DiceRoller.D20 <= _statsComponent.Kd) // TODO: change 10 for a proper kd in future
-            {
-                return;
-            }
-            _knockback = weapon.KnockbackVector * _knockbackConst;
-            int damage = (int)DiceRoller.Roll(weapon.DamageDice);
-            _healthComponent.TakeDamage(damage, area, this);
-        }
-    }
+	public void _OnHurtbox_AreaEntered(Node area)
+	{
+		if (area is Weapon weapon)
+		{
+			if (DiceRoller.D20 <= _statsComponent.Kd) // TODO: change 10 for a proper kd in future
+			{
+				return;
+			}
+			_knockback = weapon.KnockbackVector * _knockbackConst;
+			int damage = (int)DiceRoller.Roll(weapon.DamageDice);
+			_healthComponent.TakeDamage(damage, area, this);
+		}
+	}
 
 	public void _OnTakeDamage(int damage, Node from, Node to)
 	{
@@ -182,9 +182,9 @@ public partial class Bat : CharacterBody2D
 		GD.Print("-" + damage);
 	}
 
-    public void _OnAttackAnimationFinished()
-    {
-        _currentState = State.Idle;
-    }
+	public void _OnAttackAnimationFinished()
+	{
+		_currentState = State.Idle;
+	}
 #endregion
 }

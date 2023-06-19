@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://ch3fp0rybq5wh"]
 
 [ext_resource type="Texture2D" uid="uid://bvytadx4r76di" path="res://Effects/EnemyDeathEffect.png" id="1_s27ow"]
-[ext_resource type="Script" path="res://Scripts/Effect.cs" id="2_2lvpw"]
+[ext_resource type="Script" path="res://Scripts/Effects/Effect.cs" id="2_2lvpw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sjwuj"]
 atlas = ExtResource("1_s27ow")

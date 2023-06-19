@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://ce3iwhiev5ecv"]
 
 [ext_resource type="Texture2D" uid="uid://dovg6re371mw" path="res://Effects/HitEffect.png" id="1_fgci6"]
-[ext_resource type="Script" path="res://Scripts/Effect.cs" id="2_eio1v"]
+[ext_resource type="Script" path="res://Scripts/Effects/Effect.cs" id="2_eio1v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d25nl"]
 atlas = ExtResource("1_fgci6")

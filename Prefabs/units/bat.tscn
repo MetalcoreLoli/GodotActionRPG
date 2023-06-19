@@ -1,6 +1,6 @@
 [gd_scene load_steps=51 format=3 uid="uid://ci00udef1s61q"]
 
-[ext_resource type="Script" path="res://Scripts/Bat.cs" id="1_lwqv0"]
+[ext_resource type="Script" path="res://Scripts/Units/Bat.cs" id="1_lwqv0"]
 [ext_resource type="Texture2D" uid="uid://bdrvsgxpggf5p" path="res://Enemies/Bat.png" id="1_ox4lg"]
 [ext_resource type="Texture2D" uid="uid://jopfef6m7hcp" path="res://Shadows/SmallShadow.png" id="2_mjpsg"]
 [ext_resource type="PackedScene" path="res://Prefabs/hurtbox.tscn" id="3_hn435"]

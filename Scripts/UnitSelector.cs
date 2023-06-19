@@ -20,10 +20,15 @@ public partial class UnitSelector : Node2D
 
 #endregion
 
+#region Propeties
+    public List<Unit> Selected { get; private set; }
+#endregion
+
 #region Godot stuff
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        Selected = new();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -59,9 +64,9 @@ public partial class UnitSelector : Node2D
                 _selected = space.IntersectShape(query);
                 foreach (Dictionary unit in _selected)
                 {
-                    var coll = (CharacterBody2D)unit["collider"];
-                    if (coll is Player player)
-                        GD.Print(player);
+                    var coll = (Unit)unit["collider"];
+                    GD.Print(coll);
+                    Selected.Add(coll);
                 }
 
             }

@@ -1,6 +1,6 @@
 [gd_scene load_steps=63 format=3 uid="uid://cuph54sdc2bwi"]
 
-[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_fhnjt"]
+[ext_resource type="Script" path="res://Scripts/PlayerMainUnit.cs" id="1_o6psr"]
 [ext_resource type="Texture2D" uid="uid://c1jwr1scderkh" path="res://Player/Player.png" id="2_si0gq"]
 [ext_resource type="PackedScene" path="res://Prefabs/hurtbox.tscn" id="3_2apxp"]
 [ext_resource type="PackedScene" uid="uid://cjq7wvgvb1ogh" path="res://Prefabs/hitbox.tscn" id="3_48l26"]
@@ -688,7 +688,7 @@ height = 20.0
 [node name="PlayerMainUnit" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_statsComponent", "_healthComponent", "_movementComponent", "_equipmentComponent", "_pathfindingComponent", "_unitCommandsComponent")]
 collision_layer = 130
 collision_mask = 129
-script = ExtResource("1_fhnjt")
+script = ExtResource("1_o6psr")
 _rollSpeed = 800.0
 _weapon = NodePath("HitBoxPivot/SwordHitBox")
 _animationTree = NodePath("AnimationTree")

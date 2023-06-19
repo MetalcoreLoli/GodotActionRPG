@@ -9,35 +9,35 @@ public partial class MoveCommand : UnitCommand
 
 	[ExportGroup("Components")]
 	[Export] private MovementComponent _moveComponent = null!;
-	[Export] private PathfindingComponent _pathfindingComponent = null!;
+    [Export] private PathfindingComponent _pathfindingComponent = null!;
 
-	private double _delta;
-	private bool _isMoving;
+    private double _delta;
+    private bool _isMoving;
 #endregion
 
 #region Properties
-	[Export] public Vector2 Destination { get; set; } = Vector2.Zero;
+    [Export] public Vector2 Destination { get; set; } = Vector2.Zero;
 #endregion
 
 #region Public members
-	public override void Execute()
-	{
-		if ((Destination - _agent.GlobalTransform.Origin).LengthSquared() <= 1)
-		{
-			CurrentState = State.Success;
-			return;
-		}
-		_pathfindingComponent.MovementTarget = Destination;
-		var currentAgentPosition = _agent.GlobalTransform.Origin;
-		Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
-		var direction = (nextPathPosition - currentAgentPosition).Normalized();
-		_moveComponent.Move(_delta, direction);
-		CurrentState = State.Running;
-	}
-	#endregion
+    public override void Execute()
+    {
+        if ((Destination - _agent.GlobalTransform.Origin).LengthSquared() <= 1)
+        {
+            CurrentState = State.Success;
+            return;
+        }
+        _pathfindingComponent.MovementTarget = Destination;
+        var currentAgentPosition = _agent.GlobalTransform.Origin;
+        Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
+        var direction = (nextPathPosition - currentAgentPosition).Normalized();
+        _moveComponent.Move(_delta, direction);
+        CurrentState = State.Running;
+    }
+#endregion
 
 #region Godot stuff
-	public override void _UnhandledInput(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
 	{
 		// TODO: change later
 		if (@event is InputEventMouseButton buttonEvent && buttonEvent.ButtonIndex == MouseButton.Left)

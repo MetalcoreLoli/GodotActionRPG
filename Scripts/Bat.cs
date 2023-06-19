@@ -6,14 +6,14 @@ using ActionRPG.Scripts.Ai;
 using System.Runtime.CompilerServices;
 using ActionRPG.Scripts.Dices;
 
-public partial class Bat : CharacterBody2D
+public partial class Bat : Unit
 {
 #region Private Members
 	[Export] private Area2D _hurtbox = null!;
 	[Export] private float _friction = 200;
 	[Export] private float _knockbackConst = 135;
 
-	[Export] private Player _player = null!; // TODO: remove later 
+	[Export] private PlayerMainUnit _player = null!; // TODO: remove later 
 	[Export] private Vector2 _movementTargetPosition = Vector2.Zero;
 
 	[Export] private Weapon _weapon = null!;

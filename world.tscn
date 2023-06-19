@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://tcpapdbvocd8"]
+[gd_scene load_steps=14 format=3 uid="uid://tcpapdbvocd8"]
 
 [ext_resource type="Texture2D" uid="uid://33fbar6w6q0t" path="res://World/GrassBackground.png" id="1_wl7m5"]
 [ext_resource type="TileSet" uid="uid://d3h060c6v55ss" path="res://World/world.tres" id="2_ln1ur"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ci00udef1s61q" path="res://Prefabs/units/bat.tscn" id="5_ayly1"]
 [ext_resource type="PackedScene" uid="uid://5ksullum3ted" path="res://Prefabs/world/grass.tscn" id="6_y3re8"]
 [ext_resource type="Script" path="res://Scripts/UnitSelector.cs" id="8_88poy"]
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="8_vywao"]
 [ext_resource type="Script" path="res://Scripts/UnitSelectorPainter.cs" id="9_huy44"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_12rdp"]
@@ -458,12 +459,12 @@ layer_0/tile_data = PackedInt32Array(9, 458752, 0, 65545, 196608, 1, 131081, 196
 [node name="Entities" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="Player" parent="Entities" instance=ExtResource("2_odwu6")]
+[node name="PlayerMainUnit" parent="Entities" instance=ExtResource("2_odwu6")]
 position = Vector2(56, 40)
 
 [node name="Bat" parent="Entities" node_paths=PackedStringArray("_player") instance=ExtResource("5_ayly1")]
 position = Vector2(120, 48)
-_player = NodePath("../Player")
+_player = NodePath("../PlayerMainUnit")
 
 [node name="Grass" type="Node2D" parent="Entities"]
 
@@ -528,9 +529,13 @@ collision_priority = 2.0
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_54h81")
 
-[node name="UnitSelector" type="Node2D" parent="." node_paths=PackedStringArray("_painter")]
+[node name="Player" type="Node2D" parent="." node_paths=PackedStringArray("_unitSelector")]
+script = ExtResource("8_vywao")
+_unitSelector = NodePath("UnitSelector")
+
+[node name="UnitSelector" type="Node2D" parent="Player" node_paths=PackedStringArray("_painter")]
 script = ExtResource("8_88poy")
 _painter = NodePath("../UnitSelectorPainter")
 
-[node name="UnitSelectorPainter" type="Node2D" parent="."]
+[node name="UnitSelectorPainter" type="Node2D" parent="Player"]
 script = ExtResource("9_huy44")

@@ -1,6 +1,6 @@
-[gd_scene load_steps=51 format=3 uid="uid://ci00udef1s61q"]
+[gd_scene load_steps=53 format=3 uid="uid://ci00udef1s61q"]
 
-[ext_resource type="Script" path="res://Scripts/Units/Bat.cs" id="1_lwqv0"]
+[ext_resource type="Script" path="res://Scripts/Units/Bat.cs" id="1_k6lp6"]
 [ext_resource type="Texture2D" uid="uid://bdrvsgxpggf5p" path="res://Enemies/Bat.png" id="1_ox4lg"]
 [ext_resource type="Texture2D" uid="uid://jopfef6m7hcp" path="res://Shadows/SmallShadow.png" id="2_mjpsg"]
 [ext_resource type="PackedScene" path="res://Prefabs/hurtbox.tscn" id="3_hn435"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://ctuirmfi3v8un" path="res://Prefabs/components/movement_component.tscn" id="8_sf3uh"]
 [ext_resource type="PackedScene" uid="uid://d20y6o3on5udw" path="res://Prefabs/components/path_finding_component.tscn" id="10_5vwso"]
 [ext_resource type="Script" path="res://Scripts/Weapon.cs" id="12_feudm"]
+[ext_resource type="PackedScene" uid="uid://rc0em2s6nwfv" path="res://Prefabs/components/unit_commands_component.tscn" id="12_qv5nf"]
+[ext_resource type="Script" path="res://Scripts/Command/MoveCommand.cs" id="13_eyq5j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sv80"]
 atlas = ExtResource("1_ox4lg")
@@ -472,9 +474,9 @@ height = 18.0
 radius = 5.0
 height = 22.0
 
-[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_weapon", "_animationPlayer", "_animationTree", "_deathEffectSpawner", "_statsComponent", "_healthComponent", "_movementCompoment", "_pathfindingComponent")]
+[node name="Bat" type="CharacterBody2D" node_paths=PackedStringArray("_hurtbox", "_weapon", "_animationPlayer", "_animationTree", "_deathEffectSpawner", "_statsComponent", "_healthComponent", "_movementCompoment", "_pathfindingComponent", "_unitCommandsComponent")]
 collision_layer = 32
-script = ExtResource("1_lwqv0")
+script = ExtResource("1_k6lp6")
 _hurtbox = NodePath("Hurtbox")
 _weapon = NodePath("HitBoxPivot/Claw")
 _animationPlayer = NodePath("AnimationPlayer")
@@ -484,6 +486,7 @@ _statsComponent = NodePath("StatsComponent")
 _healthComponent = NodePath("HealthComponent")
 _movementCompoment = NodePath("MovementComponent")
 _pathfindingComponent = NodePath("PathFindingComponent")
+_unitCommandsComponent = NodePath("UnitCommandsComponent")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -558,5 +561,14 @@ DamageDice = "1d4"
 position = Vector2(11, 0)
 shape = SubResource("CapsuleShape2D_bx0oc")
 disabled = true
+
+[node name="UnitCommandsComponent" parent="." node_paths=PackedStringArray("_moveCommand") instance=ExtResource("12_qv5nf")]
+_moveCommand = NodePath("MoveCommand")
+
+[node name="MoveCommand" type="Node" parent="UnitCommandsComponent" node_paths=PackedStringArray("_agent", "_moveComponent", "_pathfindingComponent")]
+script = ExtResource("13_eyq5j")
+_agent = NodePath("../..")
+_moveComponent = NodePath("../../MovementComponent")
+_pathfindingComponent = NodePath("../../PathFindingComponent")
 
 [editable path="Hurtbox"]

@@ -40,7 +40,7 @@ public partial class MoveCommand : UnitCommand
     public override void _UnhandledInput(InputEvent @event)
 	{
 		// TODO: change later
-		if (@event is InputEventMouseButton buttonEvent && buttonEvent.ButtonIndex == MouseButton.Left)
+		if (@event is InputEventMouseButton buttonEvent && buttonEvent.ButtonIndex == MouseButton.Left && !buttonEvent.IsPressed())
 		{
 			Destination = buttonEvent.Position;
 		}

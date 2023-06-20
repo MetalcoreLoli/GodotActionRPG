@@ -22,7 +22,10 @@ public partial class Player : Node2D
         // TODO: change later
         if (@event is InputEventMouseButton buttonEvent && buttonEvent.ButtonIndex == MouseButton.Left)
         {
-            ExecuteUnitCommand();
+            if (buttonEvent.IsPressed())
+            {
+                ExecuteUnitCommand();
+            }
         }
     }
     // Called when the node enters the scene tree for the first time.

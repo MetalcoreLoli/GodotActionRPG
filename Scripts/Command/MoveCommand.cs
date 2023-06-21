@@ -31,18 +31,18 @@ public partial class MoveCommand : UnitCommand
         var currentAgentPosition = _agent.GlobalTransform.Origin;
         Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
         var direction = (nextPathPosition - currentAgentPosition).Normalized();
-        _moveComponent.Move(_delta, direction);
+        _moveComponent.MoveTo( direction);
         CurrentState = State.Running;
     }
 #endregion
 
 #region Godot stuff
-    public override void _UnhandledInput(InputEvent @event)
+    public override void _Input(InputEvent @event)
 	{
 		// TODO: change later
-		if (@event is InputEventMouseButton buttonEvent && buttonEvent.ButtonIndex == MouseButton.Left && !buttonEvent.IsPressed())
+		if (@event is InputEventMouseButton buttonEvent && buttonEvent.ButtonIndex == MouseButton.Left)
 		{
-			Destination = buttonEvent.Position;
+            Destination = GetViewport().GetMousePosition();
 		}
 	}
 

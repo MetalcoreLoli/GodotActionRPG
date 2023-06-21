@@ -9,7 +9,7 @@ public partial class Player : Node2D
 
     private void ExecuteUnitCommand()
     {
-        foreach (var unit in _unitSelector.Selected.OfType<Unit>())
+        foreach (var unit in _unitSelector.Selected)
         {
             unit.CommandsComponent.Execute();
         }

@@ -1,11 +1,15 @@
 using ActionRPG.Scripts.Command;
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class UnitCommandsComponent : Node2D
 {
 #region Private members
     [Export] private MoveCommand _moveCommand = null!;
+
+    private List<UnitCommand> _commands = new ();
 #endregion
 
 #region Properties
@@ -24,6 +28,14 @@ public partial class UnitCommandsComponent : Node2D
     {
         SelectedCommand?.Execute();
     }
+
+    public void SelectCommand<TUnitCommand>() where TUnitCommand: UnitCommand
+    {
+        var command = _commands.OfType<TUnitCommand>().FirstOrDefault();
+        if (command is null) return;
+        SelectedCommand = command;
+    }
+
 #endregion
 
 #region Godot stuff

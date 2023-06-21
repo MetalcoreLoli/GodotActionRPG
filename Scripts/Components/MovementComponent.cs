@@ -24,6 +24,7 @@ public partial class MovementComponent : Node2D
 	public float Speed => _speed;
 	public float Friction => _friction;
 	public float Acceleration => _acceleration;
+
 #endregion
 
 #region Signals
@@ -36,12 +37,12 @@ public partial class MovementComponent : Node2D
     public void MoveTo(Vector2 desination)
     {
         var velocity = _movableCharacter.Velocity;
-        var direction = desination;//.Normalized();
+        var direction = desination.Normalized();
         if (direction != Vector2.Zero)
         {
             _currentDirection = direction.Normalized();
             EmitSignal(nameof(OnMove), _currentDirection);
-            velocity = velocity.MoveToward(direction * Speed, Acceleration * _delta);
+            velocity = Position.DirectionTo(desination) * Speed;//velocity.MoveToward(desination * Speed, Acceleration * _delta);
         }
         else
         {
@@ -68,7 +69,7 @@ public partial class MovementComponent : Node2D
 		}
 
 		_movableCharacter.Velocity = velocity;
-		_ = _movableCharacter.MoveAndSlide();
+        _ = _movableCharacter.MoveAndSlide();
 	}
 
 #endregion
@@ -77,7 +78,6 @@ public partial class MovementComponent : Node2D
 	public override void _Ready()
 	{
 	}
-
 
     public override void _PhysicsProcess(double delta)
     {

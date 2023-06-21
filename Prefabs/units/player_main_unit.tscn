@@ -757,6 +757,7 @@ Wisdom = 13
 Strength = 15
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("_movableCharacter") instance=ExtResource("6_1brjl")]
+_speed = 40.0
 _movableCharacter = NodePath("..")
 
 [node name="HealthComponent" parent="." instance=ExtResource("7_tces4")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://cuph54sdc2bwi"]
+[gd_scene load_steps=66 format=3 uid="uid://cuph54sdc2bwi"]
 
 [ext_resource type="Script" path="res://Scripts/Units/PlayerMainUnit.cs" id="1_kixxe"]
 [ext_resource type="Texture2D" uid="uid://c1jwr1scderkh" path="res://Player/Player.png" id="2_si0gq"]
@@ -12,6 +12,9 @@
 [ext_resource type="PackedScene" uid="uid://rc0em2s6nwfv" path="res://Prefabs/components/unit_commands_component.tscn" id="10_yyvjj"]
 [ext_resource type="Script" path="res://Scripts/Command/MoveCommand.cs" id="11_m6ham"]
 [ext_resource type="PackedScene" uid="uid://d20y6o3on5udw" path="res://Prefabs/components/path_finding_component.tscn" id="12_k0bfr"]
+[ext_resource type="Texture2D" uid="uid://b4kfe5340i87t" path="res://UI/HealthBar/background.png" id="13_v2qdv"]
+[ext_resource type="Texture2D" uid="uid://c2hoesrqxtdqo" path="res://UI/HealthBar/progress.png" id="14_bnt57"]
+[ext_resource type="Script" path="res://Scripts/Ui/HealthBar.cs" id="15_t3udg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b35ho"]
 radius = 4.0
@@ -685,11 +688,12 @@ height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fylyf"]
 
-[node name="PlayerMainUnit" type="CharacterBody2D" node_paths=PackedStringArray("_weapon", "_animationTree", "_animationPlayer", "_statsComponent", "_healthComponent", "_movementComponent", "_equipmentComponent", "_pathfindingComponent", "_unitCommandsComponent")]
+[node name="PlayerMainUnit" type="CharacterBody2D" node_paths=PackedStringArray("_ui", "_weapon", "_animationTree", "_animationPlayer", "_statsComponent", "_healthComponent", "_movementComponent", "_equipmentComponent", "_pathfindingComponent", "_unitCommandsComponent")]
 collision_layer = 130
 collision_mask = 129
 script = ExtResource("1_kixxe")
 _rollSpeed = 800.0
+_ui = NodePath("UI")
 _weapon = NodePath("HitBoxPivot/SwordHitBox")
 _animationTree = NodePath("AnimationTree")
 _animationPlayer = NodePath("AnimationPlayer")
@@ -776,6 +780,27 @@ _pathfindingComponent = NodePath("../../PathFindingComponent")
 
 [node name="PathFindingComponent" parent="." instance=ExtResource("12_k0bfr")]
 max_speed = 150.0
+
+[node name="UI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -10.0
+offset_top = -26.0
+offset_right = 10.0
+offset_bottom = -21.0
+
+[node name="HealthBar" type="TextureProgressBar" parent="UI" node_paths=PackedStringArray("_healthComponent")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_under = ExtResource("13_v2qdv")
+texture_progress = ExtResource("14_bnt57")
+script = ExtResource("15_t3udg")
+_healthComponent = NodePath("../../HealthComponent")
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_On_HurtBox_AreaEntered"]
 [connection signal="area_entered" from="HitBoxPivot/SwordHitBox" to="." method="_OnArea2D_AreaEntered"]

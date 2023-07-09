@@ -11,6 +11,7 @@ public partial class HealthComponent : Node
 
 #region Events
 	[Signal] public delegate void OnDeathEventHandler(Node killer);
+    [Signal] public delegate void OnHealthChangedEventHandler(int value);
 	[Signal] public delegate void OnTakeDamageEventHandler(int damage, Node from, Node to);
 #endregion
 
@@ -33,6 +34,7 @@ public partial class HealthComponent : Node
 		{
 			if (_health == value) return;
 			_health = value;
+            _ = EmitSignal(nameof(OnHealthChanged), _health);
 		}
 	}
 

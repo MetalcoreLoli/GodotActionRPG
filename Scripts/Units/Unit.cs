@@ -9,15 +9,22 @@ public partial class Unit : CharacterBody2D
     [Export] private bool _selected = false;
 #endregion
 
+#region Events
+    [Signal] public delegate void OnSelectingEventHandler(Unit unit);
+    [Signal] public delegate void OnDeselectingEventHandler(Unit unit);
+#endregion
+
 #region Public members
     public virtual void Select()
     {
         _selected = true;
+        _ = EmitSignal(nameof(OnSelecting), this);
     }
 
     public virtual void Deselect()
     {
-        _selected = true;
+        _selected = false;
+        _ = EmitSignal(nameof(OnDeselecting), this);
     }
 #endregion
 

@@ -50,11 +50,12 @@ public partial class UnitSelector : Node2D
             {
                 _dragging = false;
                 _selected.Clear();
+
                 _painter.UpdateStatus(_dragStart, buttonEvent.Position, _dragging);
+
                 var space = GetWorld2D().DirectSpaceState;
                 _dragEnd = buttonEvent.Position;
                 _selectRentangle.Size = new (Mathf.Abs(_dragEnd.X - _dragStart.X), Mathf.Abs(_dragEnd.Y - _dragStart.Y));
-                //
                 var query = new PhysicsShapeQueryParameters2D
                 {
                     Transform = new Transform2D(0, (_dragEnd + _dragStart) / 2),
@@ -66,6 +67,7 @@ public partial class UnitSelector : Node2D
                 {
                     var coll = (Unit)unit["collider"];
                     GD.Print(coll);
+                    coll.Select();
                     Selected.Add(coll);
                 }
 

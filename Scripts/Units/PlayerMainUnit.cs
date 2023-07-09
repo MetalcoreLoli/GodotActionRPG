@@ -14,6 +14,8 @@ public partial class PlayerMainUnit : Unit
 	[Export(PropertyHint.Flags, "Idle,Attack,Move,Roll")]
 	private State _currentState = State.Idle;
 
+    [Export] private Control _ui = null!;
+
 	//TODO: create weaponhitbox class 
 	[Export] private Weapon _weapon = null!;
 
@@ -76,6 +78,9 @@ public partial class PlayerMainUnit : Unit
 
 	public override void _Ready()
 	{
+        OnSelecting += _ => _ui.Visible = true;
+        OnDeselecting += _ => _ui.Visible = false;
+
 		_healthComponent.OnDeath += (Node killer) =>
 		{
 			GD.Print("Player died");

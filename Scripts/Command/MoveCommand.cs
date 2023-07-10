@@ -5,7 +5,7 @@ namespace ActionRPG.Scripts.Command;
 public partial class MoveCommand : UnitCommand
 {
 #region Private members
-	[Export] private Node2D _agent = null!;
+	[Export] private Unit _agent = null!;
 
 	[ExportGroup("Components")]
 	[Export] private MovementComponent _moveComponent = null!;
@@ -22,6 +22,8 @@ public partial class MoveCommand : UnitCommand
 #region Public members
     public override void Execute()
     {
+        if (_agent is null)
+            return;
         if ((Destination - _agent.GlobalTransform.Origin).LengthSquared() <= 1)
         {
             CurrentState = State.Success;
@@ -34,9 +36,10 @@ public partial class MoveCommand : UnitCommand
         _moveComponent.MoveTo( direction);
         CurrentState = State.Running;
     }
-#endregion
 
+#endregion
 #region Godot stuff
+
     public override void _Input(InputEvent @event)
 	{
 		// TODO: change later

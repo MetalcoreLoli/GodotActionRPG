@@ -565,9 +565,8 @@ disabled = true
 [node name="UnitCommandsComponent" parent="." node_paths=PackedStringArray("_moveCommand") instance=ExtResource("12_qv5nf")]
 _moveCommand = NodePath("MoveCommand")
 
-[node name="MoveCommand" type="Node" parent="UnitCommandsComponent" node_paths=PackedStringArray("_agent", "_moveComponent", "_pathfindingComponent")]
+[node name="MoveCommand" type="Node" parent="UnitCommandsComponent" node_paths=PackedStringArray("_moveComponent", "_pathfindingComponent")]
 script = ExtResource("13_eyq5j")
-_agent = NodePath("../..")
 _moveComponent = NodePath("../../MovementComponent")
 _pathfindingComponent = NodePath("../../PathFindingComponent")
 

@@ -24,9 +24,9 @@ public partial class UnitCommandsComponent : Node2D
     ///<summary>
     /// Executing SelectedCommand
     ///</summary>
-    public void Execute(Unit unit)
+    public void Execute()
     {
-        SelectedCommand?.Execute(unit);
+        SelectedCommand?.Execute();
     }
 
     public void SelectCommand<TUnitCommand>() where TUnitCommand: UnitCommand

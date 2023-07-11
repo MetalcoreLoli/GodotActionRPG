@@ -37,7 +37,7 @@ public partial class AttackCommand : UnitCommand
     #endregion
 
 #region Public
-    public override void Execute(Unit u)
+    public override void Execute()
     {
         if (!IsThereAnyUnitAt(_mousePosition, out var unit))
             return;

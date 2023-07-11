@@ -779,8 +779,8 @@ _node = NodePath("Node2D")
 
 [node name="Node2D" type="Node2D" parent="UnitCommandsComponent/AttackCommand"]
 
-[node name="MoveCommand" parent="UnitCommandsComponent" node_paths=PackedStringArray("_agent", "_moveComponent", "_pathfindingComponent") instance=ExtResource("11_yudn3")]
-_agent = NodePath("../..")
+[node name="MoveCommand" parent="UnitCommandsComponent" node_paths=PackedStringArray("_unit", "_moveComponent", "_pathfindingComponent") instance=ExtResource("11_yudn3")]
+_unit = NodePath("../..")
 _moveComponent = NodePath("../../MovementComponent")
 _pathfindingComponent = NodePath("../../PathFindingComponent")
 

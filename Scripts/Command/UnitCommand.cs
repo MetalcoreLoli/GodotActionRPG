@@ -6,7 +6,7 @@ namespace ActionRPG.Scripts.Command;
 public partial class UnitCommand: Node
 {
     public State CurrentState { get; protected set; }
-    public virtual void Execute(Unit unit)
+    public virtual void Execute()
     {
     }
 

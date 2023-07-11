@@ -16,7 +16,7 @@ public partial class Player : Node2D
     {
         foreach (var unit in _unitSelector.Selected)
         {
-            _unitCommandsComponent.Execute(unit);
+            unit.CommandsComponent.Execute();
         }
     }
 

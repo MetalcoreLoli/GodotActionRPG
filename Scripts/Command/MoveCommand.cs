@@ -5,6 +5,7 @@ namespace ActionRPG.Scripts.Command;
 public partial class MoveCommand : UnitCommand
 {
 #region Private members
+    [Export] private Unit _unit = null!;
 	[ExportGroup("Components")]
 	[Export] private MovementComponent _moveComponent = null!;
     [Export] private PathfindingComponent _pathfindingComponent = null!;
@@ -19,18 +20,18 @@ public partial class MoveCommand : UnitCommand
 #endregion
 
 #region Public members
-    public override void Execute(Unit unit)
+    public override void Execute()
     {
-        if (unit is null)
+        if (_unit is null)
             return;
 
-        if ((Destination - unit.GlobalTransform.Origin).LengthSquared() <= 1)
+        if ((Destination - _unit.GlobalTransform.Origin).LengthSquared() <= 1)
         {
             CurrentState = State.Success;
             return;
         }
         _pathfindingComponent.MovementTarget = Destination;
-        var currentAgentPosition = unit.GlobalTransform.Origin;
+        var currentAgentPosition = _unit.GlobalTransform.Origin;
         Vector2 nextPathPosition = _pathfindingComponent.GetNextPathPosition();
         _direction = (nextPathPosition - currentAgentPosition).Normalized();
         _moveComponent.MoveTo(_direction);
@@ -54,7 +55,7 @@ public partial class MoveCommand : UnitCommand
 		base._Process(delta);
 		_delta = delta;
 		if (CurrentState == State.Running)
-            _moveComponent.MoveTo(_direction);
+            Execute();
 	}
 #endregion
 }

@@ -4,8 +4,6 @@ using Godot;
 public partial class Unit : CharacterBody2D
 {
 #region Private members
-    [Export] private UnitCommandsComponent _unitCommandsComponent = null!;
-
     [Export] private bool _selected = false;
 #endregion
 
@@ -29,8 +27,6 @@ public partial class Unit : CharacterBody2D
 #endregion
 
 #region Properties
-    public UnitCommandsComponent CommandsComponent => _unitCommandsComponent;
-
     public bool Selected => _selected;
 #endregion
 

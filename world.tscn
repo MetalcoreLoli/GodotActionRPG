@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://tcpapdbvocd8"]
+[gd_scene load_steps=15 format=3 uid="uid://tcpapdbvocd8"]
 
 [ext_resource type="Texture2D" uid="uid://33fbar6w6q0t" path="res://World/GrassBackground.png" id="1_wl7m5"]
 [ext_resource type="TileSet" uid="uid://d3h060c6v55ss" path="res://World/world.tres" id="2_ln1ur"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Scripts/UnitSelector.cs" id="8_88poy"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="8_vywao"]
 [ext_resource type="Script" path="res://Scripts/UnitSelectorPainter.cs" id="9_huy44"]
+[ext_resource type="PackedScene" uid="uid://rc0em2s6nwfv" path="res://Prefabs/components/unit_commands_component.tscn" id="11_w11dr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_12rdp"]
 texture = ExtResource("3_r7lyg")
@@ -529,9 +530,10 @@ collision_priority = 2.0
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_54h81")
 
-[node name="Player" type="Node2D" parent="." node_paths=PackedStringArray("_unitSelector")]
+[node name="Player" type="Node2D" parent="." node_paths=PackedStringArray("_unitSelector", "_unitCommandsComponent")]
 script = ExtResource("8_vywao")
 _unitSelector = NodePath("UnitSelector")
+_unitCommandsComponent = NodePath("UnitCommandsComponent")
 
 [node name="UnitSelector" type="Node2D" parent="Player" node_paths=PackedStringArray("_painter")]
 script = ExtResource("8_88poy")
@@ -539,3 +541,5 @@ _painter = NodePath("../UnitSelectorPainter")
 
 [node name="UnitSelectorPainter" type="Node2D" parent="Player"]
 script = ExtResource("9_huy44")
+
+[node name="UnitCommandsComponent" parent="Player" instance=ExtResource("11_w11dr")]

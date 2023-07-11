@@ -3,7 +3,7 @@ using Godot;
 
 namespace ActionRPG.Scripts.Command;
 
-public partial class UnitCommand: Node
+public partial class UnitCommand: Node2D
 {
     public State CurrentState { get; protected set; }
     public virtual void Execute()

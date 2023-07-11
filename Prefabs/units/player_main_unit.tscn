@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ghp00kidxhgo" path="res://Prefabs/components/health_component.tscn" id="7_tces4"]
 [ext_resource type="Script" path="res://Scripts/Components/EquipmentComponent.cs" id="9_t6iu7"]
 [ext_resource type="PackedScene" uid="uid://rc0em2s6nwfv" path="res://Prefabs/components/unit_commands_component.tscn" id="10_yyvjj"]
-[ext_resource type="PackedScene" uid="uid://dtyfhq41wcik1" path="res://Prefabs/units/commands/move_command.tscn" id="11_yudn3"]
+[ext_resource type="PackedScene" uid="uid://c1h1bvu2fbp1v" path="res://Prefabs/units/commands/move_command.tscn" id="11_yudn3"]
 [ext_resource type="PackedScene" uid="uid://d20y6o3on5udw" path="res://Prefabs/components/path_finding_component.tscn" id="12_k0bfr"]
 [ext_resource type="Script" path="res://Scripts/Command/AttackCommand.cs" id="12_onv0r"]
 [ext_resource type="Texture2D" uid="uid://b4kfe5340i87t" path="res://UI/HealthBar/background.png" id="13_v2qdv"]
@@ -770,22 +770,19 @@ _movableCharacter = NodePath("..")
 [node name="EquipmentComponent" type="Node" parent="."]
 script = ExtResource("9_t6iu7")
 
+[node name="PathFindingComponent" parent="." instance=ExtResource("12_k0bfr")]
+max_speed = 150.0
+
 [node name="UnitCommandsComponent" parent="." node_paths=PackedStringArray("_moveCommand") instance=ExtResource("10_yyvjj")]
 _moveCommand = NodePath("MoveCommand")
-
-[node name="AttackCommand" type="Node" parent="UnitCommandsComponent" node_paths=PackedStringArray("_node")]
-script = ExtResource("12_onv0r")
-_node = NodePath("Node2D")
-
-[node name="Node2D" type="Node2D" parent="UnitCommandsComponent/AttackCommand"]
 
 [node name="MoveCommand" parent="UnitCommandsComponent" node_paths=PackedStringArray("_unit", "_moveComponent", "_pathfindingComponent") instance=ExtResource("11_yudn3")]
 _unit = NodePath("../..")
 _moveComponent = NodePath("../../MovementComponent")
 _pathfindingComponent = NodePath("../../PathFindingComponent")
 
-[node name="PathFindingComponent" parent="." instance=ExtResource("12_k0bfr")]
-max_speed = 150.0
+[node name="AttackCommand" type="Node2D" parent="UnitCommandsComponent"]
+script = ExtResource("12_onv0r")
 
 [node name="UI" type="Control" parent="."]
 visible = false

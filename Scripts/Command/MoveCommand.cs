@@ -19,6 +19,9 @@ public partial class MoveCommand : UnitCommand
     [Export] public Vector2 Destination { get; set; } = Vector2.Zero;
 #endregion
 
+#region Events
+#endregion
+
 #region Public members
     public override void Execute()
     {
@@ -28,6 +31,7 @@ public partial class MoveCommand : UnitCommand
         if ((Destination - _unit.GlobalTransform.Origin).LengthSquared() <= 1)
         {
             CurrentState = State.Success;
+            _moveComponent.MoveTo(Vector2.Zero); // this done to indicate that player stop moving
             return;
         }
         _pathfindingComponent.MovementTarget = Destination;

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Effect : AnimatedSprite2D
 {

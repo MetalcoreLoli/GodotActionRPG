@@ -1,7 +1,5 @@
 using Godot;
-using System.Linq;
 using System;
-using System.Collections.Generic;
 using ActionRPG.Scripts.Ai;
 using System.Runtime.CompilerServices;
 using ActionRPG.Scripts.Dices;

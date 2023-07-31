@@ -12,14 +12,8 @@ public partial class Effect : AnimatedSprite2D
         AnimationFinished += _OnAnimatedSprite2D_AnimationFinished;
 	}
 
-    public override void _ExitTree()
-    {
-        AnimationFinished -= _OnAnimatedSprite2D_AnimationFinished;
-    }
+    public override void _ExitTree() => AnimationFinished -= _OnAnimatedSprite2D_AnimationFinished;
 
-    public void _OnAnimatedSprite2D_AnimationFinished()
-    {
-        QueueFree();
-    }
+    public void _OnAnimatedSprite2D_AnimationFinished() => QueueFree();
     #endregion
 }

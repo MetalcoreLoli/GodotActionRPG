@@ -14,14 +14,11 @@ public partial class MovementComponent : Node2D
 	private Vector2 _currentDirection = Vector2.Zero;
     private float _delta;
 
-    private void Move()
-	{
-		_ = _movableCharacter.MoveAndSlide();
-	}
-#endregion
+    private void Move() => _ = _movableCharacter.MoveAndSlide();
+    #endregion
 
-#region Properties
-	public float Speed => _speed;
+    #region Properties
+    public float Speed => _speed;
 	public float Friction => _friction;
 	public float Acceleration => _acceleration;
 

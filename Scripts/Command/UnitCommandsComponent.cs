@@ -18,16 +18,13 @@ public partial class UnitCommandsComponent : Node2D
     /// By default that command is MoveCommand
     ///</summary>
     public UnitCommand SelectedCommand { get; private set; }
-#endregion
+    #endregion
 
-#region Public members
+    #region Public members
     ///<summary>
     /// Executing SelectedCommand
     ///</summary>
-    public void Execute()
-    {
-        SelectedCommand?.Execute();
-    }
+    public void Execute() => SelectedCommand?.Execute();
 
     public void SelectCommand<TUnitCommand>() where TUnitCommand: UnitCommand
     {

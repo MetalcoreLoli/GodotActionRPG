@@ -15,8 +15,5 @@ public class KdModifier : StatModifier
         base.Handle();
     }
 
-    public override void Dispose()
-    {
-        _statsComponents.Kd -= _newValue;
-    }
+    public override void Dispose() => _statsComponents.Kd -= _newValue;
 }

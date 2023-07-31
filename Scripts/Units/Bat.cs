@@ -46,12 +46,9 @@ public partial class Bat : Unit
 		Idle, Fly, Attack
 	}
 
-	private void IdleState()
-	{
-		_currentAnimationState?.Travel("Idle");
-	}
+    private void IdleState() => _currentAnimationState?.Travel("Idle");
 
-	private void FlyState()
+    private void FlyState()
 	{
 		_pathfindingComponent.MovementTarget = _player.GlobalTransform.Origin;
 
@@ -62,13 +59,10 @@ public partial class Bat : Unit
 		_movementCompoment.Move(_delta, direction);
 	}
 
-	private void AttackState()
-	{
-		_currentAnimationState?.Travel("Attack");
-	}
-#endregion
+    private void AttackState() => _currentAnimationState?.Travel("Attack");
+    #endregion
 
-	private IAiActionNode Behaviour()
+    private IAiActionNode Behaviour()
 	{
 		var selector = new SelectorNode("Chase player");
 		// this is so unstable 
@@ -100,15 +94,13 @@ public partial class Bat : Unit
 	//    return seq.Add(chasePlayer).Add(selector);
 	}
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static bool CanAttack(Vector2 playersOrigin, Vector2 batsOrigin, float weaponAttackDistance)
-	{
-		return (batsOrigin - playersOrigin).LengthSquared() <= weaponAttackDistance * weaponAttackDistance;
-	}
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool CanAttack(Vector2 playersOrigin, Vector2 batsOrigin, float weaponAttackDistance) => 
+		(batsOrigin - playersOrigin).LengthSquared() <= weaponAttackDistance * weaponAttackDistance;
 
-#endregion
-#region Godot
-	public override void _Ready()
+    #endregion
+    #region Godot
+    public override void _Ready()
 	{
 		_currentAnimationState = (AnimationNodeStateMachinePlayback)(_animationTree?.Get("parameters/playback"));
 
@@ -182,9 +174,6 @@ public partial class Bat : Unit
 		GD.Print("-" + damage);
 	}
 
-	public void _OnAttackAnimationFinished()
-	{
-		_currentState = State.Idle;
-	}
-#endregion
+    public void _OnAttackAnimationFinished() => _currentState = State.Idle;
+    #endregion
 }

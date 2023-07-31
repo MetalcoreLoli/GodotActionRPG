@@ -25,9 +25,6 @@ public readonly struct Leaf : IAiActionNode
         return this;
     }
 
-    public AiActionStatus Execute()
-    {
-        return _action();
-    }
+    public AiActionStatus Execute() => _action();
 }
 

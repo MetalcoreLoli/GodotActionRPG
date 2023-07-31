@@ -22,10 +22,7 @@ public class StatModifier : IDisposable
         _next = mod;
     }
 
-    public virtual void Handle()
-    {
-        _next?.Handle();
-    }
+    public virtual void Handle() => _next?.Handle();
 
     public virtual void Dispose()
     {

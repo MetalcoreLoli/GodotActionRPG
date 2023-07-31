@@ -145,12 +145,9 @@ public partial class PlayerMainUnit : Unit
 		}
 	}
 
-	public void _OnMovementComponent_PlayerStop()
-	{
-		_currentAnimationState?.Travel("Idle");
-	}
+    public void _OnMovementComponent_PlayerStop() => _currentAnimationState?.Travel("Idle");
 
-	public void _OnTakeDamage(int damage, Node from, Node to)
+    public void _OnTakeDamage(int damage, Node from, Node to)
 	{
 		if (from is null)
 		{
@@ -164,20 +161,14 @@ public partial class PlayerMainUnit : Unit
 
 		GD.Print("-" + damage);
 	}
-	// this method will be called at the end of attack animation
-	public void RollAnimationFinished()
-	{
-		_currentState = State.Idle;
-	}
+    // this method will be called at the end of attack animation
+    public void RollAnimationFinished() => _currentState = State.Idle;
 
-	// this method will be called at the end of attack animation
-	public void AttackAnimationFinished()
-	{
-		_currentState = State.Idle;
-	}
-#endregion
+    // this method will be called at the end of attack animation
+    public void AttackAnimationFinished() => _currentState = State.Idle;
+    #endregion
 
-	[Flags]
+    [Flags]
 	public enum State: byte
 	{
 		Idle = 1 << 1,

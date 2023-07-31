@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class StatsComponent : Node
 {
@@ -13,10 +12,7 @@ public partial class StatsComponent : Node
 
     private const int DEFAULT_KD_VALUE = 10;
 
-    private int CalculateModificator(int value)
-    {
-        return value == 0 || value - 10 == 0? 0: (value - 10) / 2;
-    }
+    private int CalculateModificator(int value) => value == 0 || value - 10 == 0 ? 0 : (value - 10) / 2;
 
     private void Set(ref int desitination, int value)
     {

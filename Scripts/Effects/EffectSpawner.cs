@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class EffectSpawner : Node2D
 {
@@ -19,9 +18,6 @@ public partial class EffectSpawner : Node2D
         effect.GlobalPosition = GlobalPosition;
     }
 
-    public void Spawn()
-    {
-        SpawnAt(GlobalPosition);
-    }
+    public void Spawn() => SpawnAt(GlobalPosition);
     #endregion
 }

@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
 using System.Collections.Generic;
 
 public partial class UnitSelector : Node2D
@@ -22,9 +21,9 @@ public partial class UnitSelector : Node2D
 
 #region Propeties
     public List<Unit> Selected { get; private set; }
-#endregion
+    #endregion
 
-#region Godot stuff
+    #region Godot stuff
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
